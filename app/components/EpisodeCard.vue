@@ -1,0 +1,158 @@
+<script setup lang="ts">
+import type { Episode } from '~/types/podcast'
+
+interface Props {
+  episode: Episode
+  showArtwork?: string // Fallback to show artwork if episode has none
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits<{
+  play: [episode: Episode]
+}>()
+
+const artwork = computed(() => props.episode.artwork || props.showArtwork || '')
+
+// Format date to human-readable format
+const formattedDate = computed(() => {
+  const date = new Date(props.episode.pubDate)
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'short', 
+    day: 'numeric' 
+  })
+})
+
+// Format duration from seconds to HH:MM:SS or MM:SS
+const formattedDuration = computed(() => {
+  const seconds = props.episode.duration
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const secs = Math.floor(seconds % 60)
+  
+  if (hours > 0) {
+    return `${hours}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  }
+  return `${minutes}:${String(secs).padStart(2, '0')}`
+})
+
+// Truncate description to ~150 characters
+const truncatedDescription = computed(() => {
+  const text = props.episode.description
+  if (text.length <= 150) return text
+  return text.substring(0, 150).trim() + '...'
+})
+
+const badgeClass = computed(() => {
+  return `episode-badge episode-badge--${props.episode.episodeType}`
+})
+
+const handlePlay = (e: Event) => {
+  e.preventDefault()
+  e.stopPropagation()
+  emit('play', props.episode)
+}
+</script>
+
+<template>
+  <article class="card episode-card">
+    <NuxtLink :to="`/episodes/${episode.slug}`" class="episode-card__link">
+      <div class="episode-card__artwork">
+        <NuxtImg :src="artwork" :alt="`${episode.title} artwork`" sizes="300px" loading="lazy" />
+      </div>
+      
+      <div class="episode-card__meta">
+        <span :class="badgeClass">{{ episode.episodeType }}</span>
+        <span class="episode-card__meta-item">
+          <Icon name="ph:calendar-blank" size="14" />
+          {{ formattedDate }}
+        </span>
+        <span class="episode-card__meta-item">
+          <Icon name="ph:clock" size="14" />
+          {{ formattedDuration }}
+        </span>
+      </div>
+      
+      <div class="episode-card__body">
+        <h3>{{ episode.title }}</h3>
+        <p>
+          <small>{{ truncatedDescription }}</small>
+        </p>
+      </div>
+      
+      <button @click="handlePlay" type="button" class="episode-card__play-btn">
+        <Icon name="ph:play-fill" size="14" />
+        Play Episode
+      </button>
+    </NuxtLink>
+  </article>
+</template>
+
+<style scoped>
+.episode-card__link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.episode-card__artwork {
+  margin: calc(var(--space-6, 1.5rem) * -1);
+  margin-bottom: 0;
+  overflow: hidden;
+  border-radius: var(--radius-medium) var(--radius-medium) 0 0;
+}
+
+.episode-card__artwork img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+}
+
+.episode-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.episode-card__meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--muted-foreground);
+}
+
+.episode-card__body {
+  flex: 1;
+  margin-top: 0.25rem;
+}
+
+.episode-card__body h3 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.episode-card__body p {
+  margin: 0;
+  color: var(--muted-foreground);
+}
+
+.episode-card__play-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.episode-card__link:hover h3 {
+  text-decoration: underline;
+}
+</style>

@@ -1,0 +1,302 @@
+/* Podcast-specific CSS overrides on top of oat.css */
+
+/* Episode grid layout */
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+/* Sticky audio player at bottom */
+.audio-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--background);
+  border-top: 1px solid var(--border);
+  padding: 1rem;
+  z-index: var(--z-modal, 200);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Main content padding to account for sticky player */
+.main-content {
+  padding-bottom: 120px; /* Space for audio player */
+}
+
+/* Hero section layout */
+.podcast-hero {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  margin: 2rem 0;
+}
+
+.podcast-hero__artwork {
+  flex-shrink: 0;
+  width: 300px;
+  height: 300px;
+  border-radius: var(--radius-medium);
+  overflow: hidden;
+}
+
+.podcast-hero__artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.podcast-hero__content {
+  flex: 1;
+}
+
+/* Responsive: stack hero on mobile */
+@media (max-width: 768px) {
+  .podcast-hero {
+    flex-direction: column;
+  }
+  
+  .podcast-hero__artwork {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .episode-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .audio-player {
+    padding: 0.75rem;
+  }
+}
+
+/* Episode card styling */
+.episode-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Episode type badges */
+.episode-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: var(--radius-small);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.episode-badge--full {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+.episode-badge--bonus {
+  background: var(--warning);
+  color: var(--warning-foreground);
+}
+
+.episode-badge--trailer {
+  background: var(--secondary);
+  color: var(--secondary-foreground);
+}
+
+/* In progress indicator */
+.episode-card--in-progress::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+/* Audio player controls layout */
+.audio-player__container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.audio-player__artwork {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-small);
+  overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--muted);
+}
+
+.audio-player__artwork img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.audio-player__info {
+  flex-shrink: 0;
+  min-width: 150px;
+  max-width: 250px;
+}
+
+.audio-player__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio-player__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.audio-player__controls button {
+  padding: 0.4rem;
+  min-width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--foreground);
+  cursor: pointer;
+  border-radius: var(--radius-small);
+  transition: background-color var(--transition-fast);
+}
+
+.audio-player__controls button:hover:not(:disabled) {
+  background-color: var(--muted);
+}
+
+.audio-player__controls button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.audio-player__controls button.audio-player__play-btn {
+  min-width: 42px;
+  height: 42px;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-full);
+}
+
+.audio-player__controls button.audio-player__play-btn:hover:not(:disabled) {
+  background-color: rgb(from var(--primary) r g b / 0.85);
+}
+
+.audio-player__progress {
+  flex: 1;
+  min-width: 150px;
+}
+
+.audio-player__progress-bar {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: var(--muted);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  margin: 0.5rem 0;
+}
+
+.audio-player__progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: var(--primary);
+  border-radius: var(--radius-full);
+  transition: width 0.1s linear;
+}
+
+.audio-player__time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.audio-player__secondary-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.audio-player__speed-button {
+  min-width: 45px;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.5rem;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--foreground);
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.audio-player__speed-button:hover {
+  background-color: var(--muted);
+}
+
+.audio-player__volume {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted-foreground);
+}
+
+.audio-player__volume input[type="range"] {
+  width: 80px;
+}
+
+/* Responsive: compact layout on mobile */
+@media (max-width: 768px) {
+  .audio-player__container {
+    flex-wrap: wrap;
+  }
+  
+  .audio-player__info {
+    min-width: auto;
+    max-width: calc(100% - 64px);
+    order: -1;
+    flex: 1;
+  }
+  
+  .audio-player__artwork {
+    order: -2;
+  }
+  
+  .audio-player__progress {
+    order: 1;
+    width: 100%;
+    flex-basis: 100%;
+    min-width: unset;
+  }
+  
+  .audio-player__controls {
+    order: 2;
+  }
+  
+  .audio-player__secondary-controls {
+    order: 3;
+  }
+  
+  .audio-player__volume {
+    display: none; /* Hide volume control on mobile */
+  }
+}

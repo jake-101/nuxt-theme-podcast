@@ -1,0 +1,44 @@
+{
+  "name": "nuxt-podcast-theme",
+  "version": "0.1.0",
+  "description": "A Nuxt 4 Layer that auto-generates a podcast website from an RSS feed",
+  "type": "module",
+  "main": "./nuxt.config.ts",
+  "scripts": {
+    "dev": "nuxi dev playground",
+    "build": "nuxi build playground",
+    "generate": "nuxi generate playground",
+    "preview": "nuxi preview playground"
+  },
+  "keywords": [
+    "nuxt",
+    "podcast",
+    "rss",
+    "layer",
+    "theme"
+  ],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "pnpm@10.29.3",
+  "devDependencies": {
+    "@iconify-json/ph": "^1.2.2",
+    "@nuxt/devtools": "^3.2.1",
+    "@nuxt/icon": "^2.2.1",
+    "@nuxt/image": "^2.0.0",
+    "@oxc-minify/binding-darwin-arm64": "^0.112.0",
+    "@oxc-parser/binding-darwin-arm64": "^0.112.0",
+    "@oxc-resolver/binding-darwin-arm64": "^11.17.1",
+    "@oxc-transform/binding-darwin-arm64": "^0.112.0",
+    "@types/howler": "^2.2.12",
+    "@vueuse/nuxt": "^14.2.1",
+    "nuxt": "^4.3.1",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.28"
+  },
+  "dependencies": {
+    "@knadh/oat": "^0.3.0",
+    "@vueuse/core": "^14.2.1",
+    "fast-xml-parser": "^5.3.6",
+    "howler": "^2.2.4"
+  }
+}

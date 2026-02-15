@@ -1,0 +1,102 @@
+/**
+ * Platform links for subscribe buttons
+ */
+export interface PlatformLinks {
+  spotify?: string
+  apple?: string
+  youtube?: string
+  pocketcasts?: string
+  overcast?: string
+  rss?: string
+  [key: string]: string | undefined
+}
+
+/**
+ * Podcast configuration from app.config.ts
+ */
+export interface PodcastConfig {
+  feedUrl: string
+  siteTitle: string
+  platforms: PlatformLinks
+  episodesPerPage: number
+  theme: 'light' | 'dark' | 'auto'
+}
+
+/**
+ * Podcasting 2.0 namespace tags (optional)
+ */
+export interface Podcast2Tags {
+  transcript?: {
+    url: string
+    type: string
+    language?: string
+  }
+  chapters?: {
+    url: string
+    type: string
+  }
+  persons?: Array<{
+    name: string
+    role?: string
+    group?: string
+    img?: string
+    href?: string
+  }>
+  funding?: Array<{
+    url: string
+    text: string
+  }>
+  guid?: string
+}
+
+/**
+ * Show-level podcast metadata
+ */
+export interface Podcast {
+  title: string
+  author: string
+  description: string
+  artwork: string
+  categories: string[]
+  feedUrl: string
+  type: 'episodic' | 'serial'
+  explicit: boolean
+  link?: string
+  language?: string
+  copyright?: string
+  // Podcasting 2.0 fields
+  podcast2?: Podcast2Tags
+}
+
+/**
+ * Individual episode data
+ */
+export interface Episode {
+  guid: string
+  title: string
+  slug: string
+  description: string
+  htmlContent?: string // Rich HTML from content:encoded
+  audioUrl: string
+  audioType: string
+  audioLength: number
+  pubDate: string
+  duration: number // In seconds
+  artwork?: string // Episode-specific artwork, fallback to show artwork
+  episodeNumber?: number
+  seasonNumber?: number
+  episodeType: 'full' | 'trailer' | 'bonus'
+  explicit: boolean
+  keywords?: string[]
+  link?: string
+  // Podcasting 2.0 fields
+  podcast2?: Podcast2Tags
+}
+
+/**
+ * Complete podcast feed with show metadata and episodes
+ */
+export interface PodcastFeed {
+  podcast: Podcast
+  episodes: Episode[]
+}
