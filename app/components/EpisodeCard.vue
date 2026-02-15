@@ -37,9 +37,9 @@ const formattedDuration = computed(() => {
   return `${minutes}:${String(secs).padStart(2, '0')}`
 })
 
-// Truncate description to ~150 characters
+// Strip HTML tags and truncate description to ~150 characters
 const truncatedDescription = computed(() => {
-  const text = props.episode.description
+  const text = props.episode.description.replace(/<[^>]*>/g, '')
   if (text.length <= 150) return text
   return text.substring(0, 150).trim() + '...'
 })
@@ -63,7 +63,7 @@ const handlePlay = (e: Event) => {
       </div>
       
       <div class="episode-card__meta">
-        <span :class="badgeClass">{{ episode.episodeType }}</span>
+        <span v-if="episode.episodeType !== 'full'" :class="badgeClass">{{ episode.episodeType }}</span>
         <span class="episode-card__meta-item">
           <Icon name="ph:calendar-blank" size="14" />
           {{ formattedDate }}
@@ -145,11 +145,26 @@ const handlePlay = (e: Event) => {
 }
 
 .episode-card__play-btn {
+  all: unset;
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   margin-top: 1rem;
   align-self: flex-start;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: var(--radius-medium);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.episode-card__play-btn:hover {
+  background-color: color-mix(in srgb, var(--primary), black 10%);
+  color: var(--primary-foreground);
 }
 
 .episode-card__link:hover h3 {

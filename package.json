@@ -22,6 +22,7 @@
   "packageManager": "pnpm@10.29.3",
   "devDependencies": {
     "@iconify-json/ph": "^1.2.2",
+    "@iconify-json/simple-icons": "^1.2.70",
     "@nuxt/devtools": "^3.2.1",
     "@nuxt/icon": "^2.2.1",
     "@nuxt/image": "^2.0.0",
@@ -29,6 +30,7 @@
     "@oxc-parser/binding-darwin-arm64": "^0.112.0",
     "@oxc-resolver/binding-darwin-arm64": "^11.17.1",
     "@oxc-transform/binding-darwin-arm64": "^0.112.0",
+    "@types/culori": "^4.0.1",
     "@types/howler": "^2.2.12",
     "@vueuse/nuxt": "^14.2.1",
     "nuxt": "^4.3.1",
@@ -38,6 +40,8 @@
   "dependencies": {
     "@knadh/oat": "^0.3.0",
     "@vueuse/core": "^14.2.1",
+    "culori": "^4.0.2",
+    "extract-colors": "^4.2.1",
     "fast-xml-parser": "^5.3.6",
     "howler": "^2.2.4"
   }

@@ -163,6 +163,8 @@
 }
 
 .audio-player__controls button {
+  all: unset;
+  box-sizing: border-box;
   padding: 0.4rem;
   min-width: 36px;
   height: 36px;
@@ -195,7 +197,8 @@
 }
 
 .audio-player__controls button.audio-player__play-btn:hover:not(:disabled) {
-  background-color: rgb(from var(--primary) r g b / 0.85);
+  background-color: color-mix(in srgb, var(--primary), black 10%);
+  color: var(--primary-foreground);
 }
 
 .audio-player__progress {

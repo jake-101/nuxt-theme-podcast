@@ -21,12 +21,11 @@ const platformEntries = computed(() => {
     </div>
     <div class="podcast-hero__content">
       <h1>{{ podcast.title }}</h1>
-      <p><strong>{{ podcast.author }}</strong></p>
-      <p>{{ podcast.description }}</p>
-      
-      <div v-if="platformEntries.length > 0">
-        <h2>Subscribe</h2>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+      <p class="podcast-hero__author">{{ podcast.author }}</p>
+      <p class="podcast-hero__description">{{ podcast.description }}</p>
+
+      <nav v-if="platformEntries.length > 0" class="podcast-hero__subscribe" aria-label="Subscribe to podcast">
+        <div class="subscribe-buttons">
           <SubscribeButton
             v-for="[platform, url] in platformEntries"
             :key="platform"
@@ -34,7 +33,37 @@ const platformEntries = computed(() => {
             :url="url"
           />
         </div>
-      </div>
+      </nav>
     </div>
   </header>
 </template>
+
+<style scoped>
+.podcast-hero__author {
+  font-weight: 600;
+  color: var(--muted-foreground);
+  margin-top: 0.25rem;
+}
+
+.podcast-hero__description {
+  margin-top: 0.75rem;
+  line-height: 1.6;
+  color: var(--foreground);
+}
+
+.podcast-hero__subscribe {
+  margin-top: 1.5rem;
+}
+
+.subscribe-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+@media (max-width: 768px) {
+  .subscribe-buttons {
+    gap: 0.5rem;
+  }
+}
+</style>

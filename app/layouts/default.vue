@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useHead } from '#app'
-
 const appConfig = useAppConfig()
 const { podcast } = usePodcast()
 
@@ -12,6 +10,20 @@ const colorMode = useColorMode({
     dark: 'dark',
   },
 })
+
+// Artwork-derived theme colors
+const { isLoaded: themeReady, applyThemeColors } = useThemeColors()
+
+// Apply theme colors when data is loaded or color mode changes
+watch(
+  [themeReady, () => colorMode.value],
+  ([ready, mode]) => {
+    if (ready && (mode === 'light' || mode === 'dark')) {
+      applyThemeColors(mode)
+    }
+  },
+  { immediate: true },
+)
 
 // Initialize theme from app config
 onMounted(() => {
@@ -86,8 +98,8 @@ useHead({
 }
 
 .site-header {
-  background-color: var(--background);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
   padding: 1rem 0;
   position: sticky;
   top: 0;
@@ -103,7 +115,7 @@ useHead({
 
 .site-logo {
   text-decoration: none;
-  color: inherit;
+  color: var(--primary-foreground);
 }
 
 .site-logo h1 {
@@ -113,13 +125,13 @@ useHead({
 }
 
 .theme-toggle {
-  background: none;
-  border: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 0.25rem;
   padding: 0.5rem;
   cursor: pointer;
   line-height: 1;
-  color: var(--foreground);
+  color: var(--primary-foreground);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -127,7 +139,7 @@ useHead({
 }
 
 .theme-toggle:hover {
-  background-color: var(--muted);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 .main-content {

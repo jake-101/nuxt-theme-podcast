@@ -146,74 +146,78 @@ useHead({
 
 <template>
   <div v-if="episode && podcast" class="episode-page">
-    <!-- Episode header -->
-    <header class="episode-header">
-      <!-- Episode artwork -->
-      <div class="episode-artwork">
-        <NuxtImg 
-          :src="episode.artwork || podcast.artwork" 
-          :alt="`${episode.title} artwork`"
-          width="300"
-          height="300"
-          loading="eager"
-        />
+    <!-- Episode header card -->
+    <header class="card episode-header">
+      <div class="episode-header__top">
+        <!-- Episode artwork -->
+        <div class="episode-artwork">
+          <NuxtImg 
+            :src="episode.artwork || podcast.artwork" 
+            :alt="`${episode.title} artwork`"
+            width="400"
+            height="400"
+            loading="eager"
+          />
+        </div>
+
+        <!-- Title and badges -->
+        <div class="episode-header__info">
+          <div v-if="(episode.episodeType && episode.episodeType !== 'full') || episode.explicit" class="episode-badges">
+            <span 
+              v-if="episode.episodeType && episode.episodeType !== 'full'" 
+              class="badge episode-type"
+              :class="`type-${episode.episodeType}`"
+            >
+              {{ episode.episodeType }}
+            </span>
+            <span v-if="episode.explicit" class="badge explicit">
+              Explicit
+            </span>
+          </div>
+
+          <h1 class="episode-title">{{ episode.title }}</h1>
+
+          <p class="episode-podcast-name">{{ podcast.title }}</p>
+        </div>
       </div>
 
-      <!-- Episode metadata -->
-      <div class="episode-meta">
-        <div class="episode-badges">
-          <!-- Episode type badge -->
-          <span 
-            v-if="episode.episodeType" 
-            class="badge episode-type"
-            :class="`type-${episode.episodeType}`"
-          >
-            {{ episode.episodeType }}
-          </span>
-          
-          <!-- Explicit badge -->
-          <span v-if="episode.explicit" class="badge explicit">
-            Explicit
-          </span>
-        </div>
+      <!-- Meta details row -->
+      <div class="episode-details">
+        <span class="episode-detail-item">
+          <Icon name="ph:calendar-blank" size="16" />
+          {{ formatDate(episode.pubDate) }}
+        </span>
+        <span class="episode-detail-item">
+          <Icon name="ph:clock" size="16" />
+          {{ formatDuration(episode.duration) }}
+        </span>
+        <span v-if="episode.episodeNumber" class="episode-detail-item">
+          <Icon name="ph:hash" size="16" />
+          <template v-if="episode.seasonNumber">S{{ episode.seasonNumber }} </template>
+          E{{ episode.episodeNumber }}
+        </span>
+      </div>
 
-        <h1 class="episode-title">{{ episode.title }}</h1>
-
-        <div class="episode-details">
-          <span class="episode-date">{{ formatDate(episode.pubDate) }}</span>
-          <span class="separator">•</span>
-          <span class="episode-duration">{{ formatDuration(episode.duration) }}</span>
-          <template v-if="episode.episodeNumber">
-            <span class="separator">•</span>
-            <span class="episode-number">
-              <template v-if="episode.seasonNumber">S{{ episode.seasonNumber }} </template>
-              E{{ episode.episodeNumber }}
-            </span>
-          </template>
-        </div>
-
-        <!-- Play button -->
+      <!-- Actions -->
+      <div class="episode-actions">
         <button 
           class="play-button"
           type="button"
           @click="playEpisode"
         >
-          <span v-if="player.currentEpisode?.guid === episode.guid && player.isPlaying">
-            ⏸️ Pause
-          </span>
-          <span v-else>
-            ▶️ Play Episode
-          </span>
+          <Icon v-if="player.currentEpisode?.guid === episode.guid && player.isPlaying" name="ph:pause-fill" size="20" />
+          <Icon v-else name="ph:play-fill" size="20" />
+          {{ player.currentEpisode?.guid === episode.guid && player.isPlaying ? 'Pause' : 'Play Episode' }}
         </button>
 
-        <!-- Share button -->
         <button 
           class="share-button"
           type="button"
           @click="copyShareUrl"
           title="Copy shareable link with current timestamp"
         >
-          🔗 Share
+          <Icon name="ph:share-network" size="20" />
+          Share
         </button>
       </div>
     </header>
@@ -320,83 +324,131 @@ useHead({
   max-width: 100%;
 }
 
+/* ── Header card ── */
 .episode-header {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 2rem;
   margin-bottom: 2rem;
+}
+
+.episode-header__top {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.episode-artwork {
+  overflow: hidden;
+  border-radius: var(--radius-medium);
+  box-shadow: var(--shadow-medium);
 }
 
 .episode-artwork img {
   width: 100%;
   height: auto;
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+.episode-header__info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 300px;
 }
 
 .episode-badges {
   display: flex;
   gap: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   flex-wrap: wrap;
 }
 
 .badge {
   display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-small);
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
 }
 
 .episode-type {
-  background-color: var(--primary, #2563eb);
-  color: white;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
 }
 
 .type-bonus {
-  background-color: var(--accent, #8b5cf6);
+  background-color: var(--warning);
+  color: var(--warning-foreground);
 }
 
 .type-trailer {
-  background-color: var(--warning, #f59e0b);
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
 }
 
 .explicit {
-  background-color: var(--error, #dc2626);
-  color: white;
+  background-color: var(--danger);
+  color: var(--danger-foreground);
 }
 
 .episode-title {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.75rem;
+  margin: 0;
+  font-size: 2.25rem;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 
+.episode-podcast-name {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  color: var(--muted-foreground);
+}
+
+/* ── Meta details ── */
 .episode-details {
-  color: var(--text-muted, #6b7280);
-  font-size: 0.875rem;
-  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  color: var(--muted-foreground);
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
-.separator {
-  margin: 0 0.5rem;
+.episode-detail-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ── Actions ── */
+.episode-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
 }
 
 .play-button,
 .share-button {
-  padding: 0.75rem 1.5rem;
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
   border: 1px solid var(--border);
-  border-radius: 0.375rem;
+  border-radius: var(--radius-medium);
   background-color: var(--background);
   color: var(--foreground);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
 
 .play-button:hover,
@@ -406,13 +458,14 @@ useHead({
 }
 
 .play-button {
-  background-color: var(--primary, #2563eb);
-  color: white;
-  border-color: var(--primary, #2563eb);
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
 }
 
 .play-button:hover {
-  opacity: 0.9;
+  background-color: color-mix(in srgb, var(--primary), black 10%);
+  color: var(--primary-foreground);
 }
 
 .episode-description {
@@ -528,25 +581,30 @@ useHead({
 
 /* Responsive layout */
 @media (max-width: 768px) {
-  .episode-header {
+  .episode-header__top {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .episode-artwork {
-    max-width: 300px;
-    margin: 0 auto;
+    max-width: 280px;
+  }
+
+  .episode-header__info {
+    min-height: auto;
   }
 
   .episode-title {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
   
+  .episode-actions {
+    flex-direction: column;
+  }
+
   .play-button,
   .share-button {
-    display: block;
-    width: 100%;
-    margin-right: 0;
+    justify-content: center;
   }
 }
 </style>
