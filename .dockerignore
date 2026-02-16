@@ -1,0 +1,12 @@
+node_modules
+playground/node_modules
+playground/.nuxt
+playground/.output
+.nuxt
+.output
+.git
+.github
+.beads
+docs
+*.md
+!README.md
