@@ -31,11 +31,20 @@ const filteredEpisodes = computed(() => {
   )
 })
 
-// Pagination
-const currentPage = ref(1)
+// Pagination — synced with URL query string (?page=N)
+const route = useRoute()
+const router = useRouter()
+
 const totalPages = computed(() => 
   Math.ceil(filteredEpisodes.value.length / props.episodesPerPage)
 )
+
+/** Parse and clamp page number from route query */
+const currentPage = computed(() => {
+  const raw = Number(route.query.page)
+  if (!Number.isFinite(raw) || raw < 1) return 1
+  return Math.min(raw, Math.max(1, totalPages.value))
+})
 
 const paginatedEpisodes = computed(() => {
   const start = (currentPage.value - 1) * props.episodesPerPage
@@ -43,14 +52,27 @@ const paginatedEpisodes = computed(() => {
   return filteredEpisodes.value.slice(start, end)
 })
 
+/** Update URL query param. Uses replace to avoid polluting browser history. */
 const setPage = (page: number) => {
-  currentPage.value = page
+  const clamped = Math.max(1, Math.min(page, totalPages.value))
+  // Omit ?page=1 to keep the default URL clean
+  const query = { ...route.query }
+  if (clamped <= 1) {
+    delete query.page
+  } else {
+    query.page = String(clamped)
+  }
+  router.replace({ query })
   window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // Reset to page 1 when search changes
 watch(searchQuery, () => {
-  currentPage.value = 1
+  if (route.query.page) {
+    const query = { ...route.query }
+    delete query.page
+    router.replace({ query })
+  }
 })
 
 const handlePlay = (episode: Episode) => {
