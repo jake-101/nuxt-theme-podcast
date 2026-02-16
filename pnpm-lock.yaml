@@ -45,13 +45,25 @@ importers:
       '@oxc-minify/binding-darwin-arm64':
         specifier: ^0.112.0
         version: 0.112.0
+      '@oxc-minify/binding-linux-x64-gnu':
+        specifier: ^0.112.0
+        version: 0.112.0
       '@oxc-parser/binding-darwin-arm64':
+        specifier: ^0.112.0
+        version: 0.112.0
+      '@oxc-parser/binding-linux-x64-gnu':
         specifier: ^0.112.0
         version: 0.112.0
       '@oxc-resolver/binding-darwin-arm64':
         specifier: ^11.17.1
         version: 11.17.1
+      '@oxc-resolver/binding-linux-x64-gnu':
+        specifier: ^11.17.1
+        version: 11.17.1
       '@oxc-transform/binding-darwin-arm64':
+        specifier: ^0.112.0
+        version: 0.112.0
+      '@oxc-transform/binding-linux-x64-gnu':
         specifier: ^0.112.0
         version: 0.112.0
       '@types/culori':
@@ -790,7 +802,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@oxc-minify/binding-linux-x64-musl@0.112.0':
     resolution: {integrity: sha512-HAPfmQKlkVi97/zRonVE9t/kKUG3ni+mOuU1Euw+3s37KwUuOJjmcwXdclVgXKBlTkCGO0FajPwW5dAJeIXCCw==}
@@ -917,7 +928,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@oxc-parser/binding-linux-x64-musl@0.112.0':
     resolution: {integrity: sha512-TYqnuKV/p3eOc+N61E0961nA7DC+gaCeJ3+V2LcjJdTwFMdikqWL6uVk1jlrpUCBrozHDATVUKDZYH7r4FQYjQ==}
@@ -962,6 +972,11 @@ packages:
     resolution: {integrity: sha512-HOYYLSY4JDk14YkXaz/ApgJYhgDP4KsG8EZpgpOxdszGW9HmIMMY/vXqVKYW74dSH+GQkIXYxBrEh3nv+XODVg==}
     cpu: [arm64]
     os: [darwin]
+
+  '@oxc-resolver/binding-linux-x64-gnu@11.17.1':
+    resolution: {integrity: sha512-3RAhxipMKE8RCSPn7O//sj440i+cYTgYbapLeOoDvQEt6R1QcJjTsFgI4iz99FhVj3YbPxlZmcLB5VW+ipyRTA==}
+    cpu: [x64]
+    os: [linux]
 
   '@oxc-transform/binding-android-arm-eabi@0.112.0':
     resolution: {integrity: sha512-r4LuBaPnOAi0eUOBNi880Fm2tO2omH7N1FRrL6+nyz/AjQ+QPPLtoyZJva0O+sKi1buyN/7IzM5p9m+5ANSDbg==}
@@ -1052,7 +1067,6 @@ packages:
     engines: {node: ^20.19.0 || >=22.12.0}
     cpu: [x64]
     os: [linux]
-    libc: [glibc]
 
   '@oxc-transform/binding-linux-x64-musl@0.112.0':
     resolution: {integrity: sha512-ISQoA3pD4cyTGpf9sXXeerH6pL2L6EIpdy6oAy2ttkswyVFDyQNVOVIGIdLZDgbpmqGljxZnWqt/J/N68pQaig==}
@@ -3191,8 +3205,8 @@ packages:
   tar-stream@3.1.7:
     resolution: {integrity: sha512-qJj60CXt7IU1Ffyc3NJMjh6EkuCFej46zUqJ4J7pqYlThyd9bO0XBTmcOIhSzZJVWfsLks0+nle/j538YAW9RQ==}
 
-  tar@7.5.7:
-    resolution: {integrity: sha512-fov56fJiRuThVFXD6o6/Q354S7pnWMJIVlDBYijsTNx6jKSE4pvrDTs6lUnmGvNyfJwFQQwWy3owKz1ucIhveQ==}
+  tar@7.5.9:
+    resolution: {integrity: sha512-BTLcK0xsDh2+PUe9F6c2TlRp4zOOBMTkoQHQIWSIzI0R7KG46uEwq4OPk2W7bZcprBMsuaeFsqwYr7pjh6CuHg==}
     engines: {node: '>=18'}
 
   terser@5.46.0:
@@ -4078,7 +4092,7 @@ snapshots:
       node-fetch: 2.7.0
       nopt: 8.1.0
       semver: 7.7.4
-      tar: 7.5.7
+      tar: 7.5.9
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -4462,8 +4476,7 @@ snapshots:
   '@oxc-minify/binding-linux-s390x-gnu@0.112.0':
     optional: true
 
-  '@oxc-minify/binding-linux-x64-gnu@0.112.0':
-    optional: true
+  '@oxc-minify/binding-linux-x64-gnu@0.112.0': {}
 
   '@oxc-minify/binding-linux-x64-musl@0.112.0':
     optional: true
@@ -4523,8 +4536,7 @@ snapshots:
   '@oxc-parser/binding-linux-s390x-gnu@0.112.0':
     optional: true
 
-  '@oxc-parser/binding-linux-x64-gnu@0.112.0':
-    optional: true
+  '@oxc-parser/binding-linux-x64-gnu@0.112.0': {}
 
   '@oxc-parser/binding-linux-x64-musl@0.112.0':
     optional: true
@@ -4549,6 +4561,8 @@ snapshots:
   '@oxc-project/types@0.112.0': {}
 
   '@oxc-resolver/binding-darwin-arm64@11.17.1': {}
+
+  '@oxc-resolver/binding-linux-x64-gnu@11.17.1': {}
 
   '@oxc-transform/binding-android-arm-eabi@0.112.0':
     optional: true
@@ -4588,8 +4602,7 @@ snapshots:
   '@oxc-transform/binding-linux-s390x-gnu@0.112.0':
     optional: true
 
-  '@oxc-transform/binding-linux-x64-gnu@0.112.0':
-    optional: true
+  '@oxc-transform/binding-linux-x64-gnu@0.112.0': {}
 
   '@oxc-transform/binding-linux-x64-musl@0.112.0':
     optional: true
@@ -6940,7 +6953,7 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  tar@7.5.7:
+  tar@7.5.9:
     dependencies:
       '@isaacs/fs-minipass': 4.0.1
       chownr: 3.0.0
