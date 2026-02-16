@@ -94,9 +94,16 @@ const copyShareUrl = async () => {
   }
 }
 
-// Play this episode
+// Play/pause this episode
 const playEpisode = () => {
-  if (episode.value) {
+  if (!episode.value) return
+  
+  const isCurrentEpisode = player.currentEpisode.value?.guid === episode.value.guid
+  const isPlaying = isCurrentEpisode && player.isPlaying.value
+  
+  if (isPlaying) {
+    player.pause()
+  } else {
     player.play(episode.value)
   }
 }
