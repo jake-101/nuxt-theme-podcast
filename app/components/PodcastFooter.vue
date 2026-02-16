@@ -10,7 +10,7 @@ const showSwitcher = ref(false)
 const toggleSwitcher = () => {
   showSwitcher.value = !showSwitcher.value
 }
-
+</script>
 
 <template>
   <footer class="podcast-footer">
