@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "description": "A Nuxt 4 Layer that auto-generates a podcast website from an RSS feed",
   "type": "module",
-  "main": "./nuxt.config.ts",
   "scripts": {
     "dev": "nuxi dev playground",
     "build": "nuxi build playground",
     "generate": "nuxi generate playground",
-    "preview": "nuxi preview playground"
+    "preview": "nuxi preview playground",
+    "start": "node playground/.output/server/index.mjs"
   },
   "keywords": [
     "nuxt",
