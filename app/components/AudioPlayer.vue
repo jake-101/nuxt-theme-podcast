@@ -209,7 +209,6 @@ const artworkUrl = computed(() => {
     <div style="display: none;" aria-hidden="true">
       <Icon name="ph:speaker-x-bold" />
       <Icon name="ph:speaker-low-bold" />
-      <Icon name="ph:speaker-bold" />
       <Icon name="ph:speaker-high-bold" />
     </div>
   </div>

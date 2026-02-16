@@ -278,10 +278,8 @@ export function useAudioPlayer() {
   const speakerIcon = computed(() => {
     if (state.value.isMuted || state.value.volume === 0) {
       return 'ph:speaker-x-bold'
-    } else if (state.value.volume < 0.33) {
+    } else if (state.value.volume < 0.5) {
       return 'ph:speaker-low-bold'
-    } else if (state.value.volume < 0.66) {
-      return 'ph:speaker-bold'
     } else {
       return 'ph:speaker-high-bold'
     }
