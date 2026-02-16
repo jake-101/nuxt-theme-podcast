@@ -146,6 +146,7 @@ useHead({
 
 <template>
   <div v-if="episode && podcast" class="episode-page">
+    <div class="container">
     <!-- Episode header card -->
     <header class="card episode-header">
       <div class="episode-header__top">
@@ -309,19 +310,29 @@ useHead({
         View original episode page →
       </a>
     </section>
+    </div>
   </div>
 
   <!-- 404 fallback -->
   <div v-else class="episode-not-found">
-    <h1>Episode not found</h1>
-    <p>The episode you're looking for doesn't exist.</p>
-    <NuxtLink to="/" class="back-link">← Back to home</NuxtLink>
+    <div class="container">
+      <h1>Episode not found</h1>
+      <p>The episode you're looking for doesn't exist.</p>
+      <NuxtLink to="/" class="back-link">← Back to home</NuxtLink>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .episode-page {
   max-width: 100%;
+  padding: 2rem 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 /* ── Header card ── */

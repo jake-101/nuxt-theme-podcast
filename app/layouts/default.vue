@@ -75,9 +75,7 @@ useHead({
 
     <!-- Main content area -->
     <main class="main-content">
-      <div class="container">
-        <slot />
-      </div>
+      <slot />
     </main>
 
     <!-- Footer -->
@@ -144,7 +142,6 @@ useHead({
 
 .main-content {
   flex: 1;
-  padding: 2rem 0;
 }
 
 .container {

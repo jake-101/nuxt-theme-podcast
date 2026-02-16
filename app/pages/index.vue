@@ -70,14 +70,16 @@ useHead({
       />
 
       <!-- Episode grid with search and pagination -->
-      <section class="episodes-section">
-        <EpisodeGrid 
-          :episodes="episodes"
-          :episodes-per-page="appConfig.podcast.episodesPerPage"
-          :show-artwork="podcast.artwork"
-          @play="handlePlayEpisode"
-        />
-      </section>
+      <div class="container">
+        <section class="episodes-section">
+          <EpisodeGrid 
+            :episodes="episodes"
+            :episodes-per-page="appConfig.podcast.episodesPerPage"
+            :show-artwork="podcast.artwork"
+            @play="handlePlayEpisode"
+          />
+        </section>
+      </div>
     </template>
   </div>
 </template>
@@ -85,6 +87,12 @@ useHead({
 <style scoped>
 .home-page {
   width: 100%;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .loading-state,
