@@ -3,23 +3,6 @@
 const player = useAudioPlayer()
 const { podcast } = usePodcast()
 
-// Preload all speaker icons to prevent flashing when volume changes
-onMounted(() => {
-  if (import.meta.client) {
-    // Preload all speaker icon variants
-    const speakerIcons = [
-      'ph:speaker-x-bold',
-      'ph:speaker-low-bold', 
-      'ph:speaker-bold',
-      'ph:speaker-high-bold'
-    ]
-    // Trigger icon API calls to cache them
-    speakerIcons.forEach(icon => {
-      fetch(`/api/_nuxt_icon/ph.json?icons=${icon.replace('ph:', '')}`)
-    })
-  }
-})
-
 // Local state for dragging seek bar
 const isDragging = ref(false)
 const dragPosition = ref(0)
@@ -220,6 +203,14 @@ const artworkUrl = computed(() => {
           >
         </div>
       </div>
+    </div>
+
+    <!-- Preload speaker icons to prevent flashing -->
+    <div style="display: none;" aria-hidden="true">
+      <Icon name="ph:speaker-x-bold" />
+      <Icon name="ph:speaker-low-bold" />
+      <Icon name="ph:speaker-bold" />
+      <Icon name="ph:speaker-high-bold" />
     </div>
   </div>
 </template>
