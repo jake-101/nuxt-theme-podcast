@@ -95,8 +95,8 @@ onMounted(() => {
   right: 0;
   margin-bottom: 0.5rem;
   min-width: 120px;
-  background-color: #f9fafb;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: var(--muted, #f5f5f5);
+  border: 1px solid var(--border, rgba(0, 0, 0, 0.1));
   border-radius: var(--radius-small, 6px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   z-index: 1000;
@@ -112,16 +112,16 @@ onMounted(() => {
   border: none;
   cursor: pointer;
   transition: background-color 0.15s;
-  color: #111827;
+  color: var(--foreground, #111827);
 }
 
 .speed-menu__option:hover {
-  background-color: #e5e7eb;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .speed-menu__option--active {
-  background-color: #e5e7eb;
-  color: #111827;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--foreground, #111827);
   font-weight: 600;
 }
 
@@ -138,21 +138,21 @@ onMounted(() => {
   }
 
   .speed-menu__dropdown {
-    background-color: #374151;
+    background-color: var(--muted, #2a2a2a);
     border-color: rgba(255, 255, 255, 0.1);
   }
 
   .speed-menu__option {
-    color: #f9fafb;
+    color: var(--foreground, #f9fafb);
   }
 
   .speed-menu__option:hover {
-    background-color: #4b5563;
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   .speed-menu__option--active {
-    background-color: #4b5563;
-    color: #f9fafb;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--foreground, #f9fafb);
   }
 }
 </style>
