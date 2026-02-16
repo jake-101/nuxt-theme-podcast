@@ -77,8 +77,8 @@ onMounted(() => {
   padding: 0.5rem 0.75rem;
   font-size: 0.875rem;
   font-weight: 500;
-  background-color: var(--bg-secondary, #f3f4f6);
-  color: var(--fg-primary, #111827);
+  background-color: var(--muted, #f5f5f5);
+  color: var(--foreground, #111827);
   border: 1px solid var(--border, rgba(0, 0, 0, 0.1));
   border-radius: var(--radius-small, 6px);
   cursor: pointer;
@@ -86,7 +86,8 @@ onMounted(() => {
 }
 
 .speed-menu__trigger:hover {
-  background-color: var(--bg-tertiary, #e5e7eb);
+  background-color: var(--muted, #f5f5f5);
+  opacity: 0.8;
 }
 
 .speed-menu__dropdown {
@@ -128,13 +129,14 @@ onMounted(() => {
 /* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .speed-menu__trigger {
-    background-color: var(--bg-secondary, #374151);
-    color: var(--fg-primary, #f9fafb);
+    background-color: var(--muted, #2a2a2a);
+    color: var(--foreground, #f9fafb);
     border-color: var(--border, rgba(255, 255, 255, 0.1));
   }
 
   .speed-menu__trigger:hover {
-    background-color: var(--bg-tertiary, #4b5563);
+    background-color: var(--muted, #2a2a2a);
+    opacity: 0.8;
   }
 
   .speed-menu__dropdown {
