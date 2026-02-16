@@ -62,7 +62,6 @@ onMounted(() => {
         @click="selectSpeed(speed)"
       >
         {{ speed }}x
-        <span v-if="speed === 1" class="speed-menu__label">(Normal)</span>
       </button>
     </div>
   </div>
@@ -96,7 +95,7 @@ onMounted(() => {
   right: 0;
   margin-bottom: 0.5rem;
   min-width: 120px;
-  background-color: var(--bg-primary, #ffffff);
+  background-color: var(--bg-secondary, #f9fafb);
   border: 1px solid var(--border, rgba(0, 0, 0, 0.1));
   border-radius: var(--radius-small, 6px);
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
@@ -113,26 +112,17 @@ onMounted(() => {
   border: none;
   cursor: pointer;
   transition: background-color 0.15s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   color: var(--fg-primary, #111827);
 }
 
 .speed-menu__option:hover {
-  background-color: var(--bg-secondary, #f3f4f6);
+  background-color: var(--bg-tertiary, #f3f4f6);
 }
 
 .speed-menu__option--active {
-  background-color: var(--bg-accent, #3b82f6);
-  color: var(--fg-on-accent, #ffffff);
+  background-color: var(--bg-tertiary, #f3f4f6);
+  color: var(--fg-primary, #111827);
   font-weight: 600;
-}
-
-.speed-menu__label {
-  font-size: 0.75rem;
-  opacity: 0.7;
-  margin-left: 0.5rem;
 }
 
 /* Dark mode support */
@@ -148,7 +138,7 @@ onMounted(() => {
   }
 
   .speed-menu__dropdown {
-    background-color: var(--bg-primary, #1f2937);
+    background-color: var(--bg-secondary, #374151);
     border-color: var(--border, rgba(255, 255, 255, 0.1));
   }
 
@@ -157,12 +147,12 @@ onMounted(() => {
   }
 
   .speed-menu__option:hover {
-    background-color: var(--bg-secondary, #374151);
+    background-color: var(--bg-tertiary, #4b5563);
   }
 
   .speed-menu__option--active {
-    background-color: var(--bg-accent, #3b82f6);
-    color: var(--fg-on-accent, #ffffff);
+    background-color: var(--bg-tertiary, #4b5563);
+    color: var(--fg-primary, #f9fafb);
   }
 }
 </style>
