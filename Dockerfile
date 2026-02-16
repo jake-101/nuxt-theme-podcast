@@ -1,5 +1,9 @@
+FROM node:20-alpine AS base
+
+# ---
+
 # Build stage
-FROM node:20-slim AS build
+FROM base AS build
 
 # Enable pnpm via corepack
 ENV PNPM_HOME="/pnpm"
@@ -18,15 +22,15 @@ RUN pnpm build
 
 # ---
 
-# Production stage — minimal runtime
-FROM node:20-slim AS production
+# Production stage — no package manager needed, Nitro output is self-contained
+FROM base AS production
 
 WORKDIR /app
 
 # Copy only the self-contained Nitro output
 COPY --from=build /app/playground/.output /app/.output
 
-# Nitro listens on 0.0.0.0:3000 by default
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 EXPOSE 3000
