@@ -17,16 +17,19 @@ These feeds provide additional testing scenarios for advanced features:
 
 | Podcast | Feed URL | Platform | Notable Features |
 |---------|----------|----------|------------------|
-| **The Joe Rogan Experience** | `https://feeds.simplecast.com/7HTVlE_g` | Simplecast | Transcripts, Chapters |
-| **The Daily (NYT)** | `https://feeds.simplecast.com/54nAGcIl` | Simplecast | Native Transcripts, Remote Items |
-| **Huberman Lab** | `https://feeds.megaphone.fm/hubermanlab` | Megaphone | Deep Metadata, Transcripts |
-| **Lex Fridman Podcast** | `https://lexfridman.com/feed/podcast/` | Custom | Chapters, High-Res Artwork |
-| **The Rest Is History** | `https://feeds.megaphone.fm/GLT4787413333` | Megaphone | Chapters, Advanced Tracking |
+| **Podnews Daily** | `https://podnews.net/rss` | Custom | **podcast:transcript (VTT)** - 150/151 episodes |
+| **The Joe Rogan Experience** | `https://feeds.megaphone.fm/GLT1412515089` | Megaphone | Large catalog |
+| **The Daily (NYT)** | `https://feeds.simplecast.com/54nAGcIl` | Simplecast | Remote Items |
+| **Huberman Lab** | `https://feeds.megaphone.fm/hubermanlab` | Megaphone | Deep Metadata |
+| **Lex Fridman Podcast** | `https://lexfridman.com/feed/podcast/` | Custom | High-Res Artwork |
+| **The Rest Is History** | `https://feeds.megaphone.fm/GLT4787413333` | Megaphone | Large catalog |
 | **New Heights (Kelce Bros)** | `https://rss.art19.com/new-heights` | Art19 | Video Enclosures, Dynamic Ads |
-| **Crime Junkie** | `https://feeds.simplecast.com/i6hk` | Simplecast | Transcripts, Person Tags |
+| **Crime Junkie** | `https://feeds.simplecast.com/i6hk` | Simplecast | Person Tags |
 | **SmartLess** | `https://rss.art19.com/smartless` | Art19 | Early Access Tags (Wondery+) |
 | **Dateline NBC** | `https://podcastfeeds.nbcnews.com/dateline-nbc` | NBC News | Cross-platform GUIDs |
-| **Pod Save America** | `https://audioboom.com/channels/5166624.rss` | Audioboom | Location Tags, Transcripts |
+| **Pod Save America** | `https://audioboom.com/channels/5166624.rss` | Audioboom | Location Tags |
+
+> **Note on transcripts:** Most major podcast feeds do not use the Podcasting 2.0 `podcast:transcript` tag. Podnews Daily is the primary test feed for transcript viewer functionality.
 
 ## Testing Guidelines
 
@@ -40,7 +43,7 @@ When testing the theme with these feeds:
 
 ## Podcasting 2.0 Features
 
-Many of these feeds include Podcasting 2.0 namespace tags:
+Adoption of Podcasting 2.0 namespace tags is limited among mainstream podcasts. The following tags are supported by the theme:
 
 - **`podcast:transcript`**: Links to episode transcripts
 - **`podcast:chapters`**: JSON file with chapter markers
