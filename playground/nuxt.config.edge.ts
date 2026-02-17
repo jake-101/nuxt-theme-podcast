@@ -3,11 +3,15 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'cloudflare-pages',
+    // sharp uses native binaries incompatible with the CF edge runtime.
+    // Replace it with an empty mock so Nitro can bundle the worker successfully.
+    replace: {
+      'require("sharp")': 'null',
+      'require(\'sharp\')': 'null',
+    },
   },
 
-  // IPX (default image provider) depends on sharp which uses native binaries
-  // incompatible with the Cloudflare edge runtime. Use Cloudflare's built-in
-  // image resizing instead — no sharp dependency, runs natively on the edge.
+  // Use Cloudflare's built-in image resizing — no sharp dependency.
   image: {
     provider: 'cloudflare',
   },
