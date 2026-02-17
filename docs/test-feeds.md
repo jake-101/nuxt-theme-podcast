@@ -14,6 +14,8 @@ All feeds verified working as of Feb 2026.
 | **Acquired** | `https://feeds.transistor.fm/acquired` | Transistor | 212+ | podcast:person (424 tags), seasons, episode numbers, keywords, 24 bonus + 1 trailer, podcast:guid |
 | **What The Hack** | `https://feeds.transistor.fm/what-the-hack-podcast` | Transistor | 17+ | **podcast:person with unique guests per episode** (88 tags, 1 host + many guests), podcast:guid |
 | **70mm** | `https://feeds.transistor.fm/70mm` | Transistor | 349+ | **podcast:chapters (346 eps)**, podcast:transcript (10 eps), podcast:funding, episode numbers, keywords, 49 bonus + 1 trailer |
+| **The Sustainable Tech Podcast** | `https://feeds.transistor.fm/the-sustainable-tech-podcast` | Transistor | 33+ | podcast:person (host + unique guest per ep), **podcast:transcript (VTT + JSON)**, podcast:guid, podcast:podroll, episode numbers, keywords, content:encoded |
+| **Cheeky Pint** | `https://feeds.transistor.fm/cheeky-pint-with-john-collison` | Transistor | 22+ | podcast:transcript (plain text per ep), podcast:guid, podcast:trailer, per-episode artwork, episode numbers, timestamps in show notes, content:encoded |
 
 ## Additional Test Feeds
 
@@ -59,13 +61,15 @@ Adoption of Podcasting 2.0 namespace tags is limited among mainstream podcasts. 
 
 | Tag | Feeds with this tag |
 |-----|---------------------|
-| **`podcast:transcript`** | Podnews Daily (150 episodes), 70mm (10 episodes) |
+| **`podcast:transcript`** | Podnews Daily (150 eps), 70mm (10 eps), The Sustainable Tech Podcast (VTT + JSON per ep), Cheeky Pint (plain text per ep) |
 | **`podcast:chapters`** | 70mm (346 episodes) |
-| **`podcast:person`** | Acquired (424 tags, hosts only), What The Hack (88 tags, unique guests per ep), Podnews Daily (1) |
+| **`podcast:person`** | Acquired (424 tags, hosts only), What The Hack (88 tags, unique guests per ep), Podnews Daily (1), The Sustainable Tech Podcast (host + guest per ep) |
 | **`podcast:funding`** | Podnews Daily (1), 70mm (1) |
-| **`podcast:guid`** | Acquired, Lex Fridman, Podnews Daily, Pod Save America, 70mm |
+| **`podcast:guid`** | Acquired, Lex Fridman, Podnews Daily, Pod Save America, 70mm, The Sustainable Tech Podcast, Cheeky Pint |
 | **`podcast:location`** | Podnews Daily (23) |
 | **`podcast:value`** | Podnews Daily (4) |
-| **`podcast:locked`** | Acquired, 70mm |
+| **`podcast:locked`** | Acquired, 70mm, The Sustainable Tech Podcast, Cheeky Pint |
+| **`podcast:podroll`** | The Sustainable Tech Podcast |
+| **`podcast:trailer`** | Cheeky Pint |
 
 Refer to the [Podcasting 2.0 namespace spec](https://github.com/Podcastindex-org/podcast-namespace) for full details.
