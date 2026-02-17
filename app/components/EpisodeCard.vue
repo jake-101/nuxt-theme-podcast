@@ -66,16 +66,23 @@ const handlePlay = (e: Event) => {
       </div>
       
       <div class="episode-card__content">
+        <div class="episode-card__body">
+          <h3>{{ episode.title }}</h3>
+        </div>
+        
         <div class="episode-card__meta">
           <span v-if="episode.episodeType !== 'full'" :class="badgeClass">{{ episode.episodeType }}</span>
           <span class="episode-card__meta-item">
             <Icon name="ph:calendar-blank" size="14" />
             {{ formattedDate }}
           </span>
+          <span class="episode-card__duration">
+            <Icon name="ph:clock" size="14" />
+            {{ formattedDuration }}
+          </span>
         </div>
         
-        <div class="episode-card__body">
-          <h3>{{ episode.title }}</h3>
+        <div class="episode-card__description">
           <p>
             <small>{{ truncatedDescription }}</small>
           </p>
@@ -87,10 +94,6 @@ const handlePlay = (e: Event) => {
             <Icon v-else name="ph:play-fill" size="14" />
             {{ isPlaying ? 'Pause' : 'Play Episode' }}
           </button>
-          <span class="episode-card__duration">
-            <Icon name="ph:clock" size="14" />
-            {{ formattedDuration }}
-          </span>
         </div>
       </div>
     </NuxtLink>
@@ -131,12 +134,22 @@ const handlePlay = (e: Event) => {
   flex: 1;
 }
 
+.episode-card__body {
+  margin-top: 1rem;
+}
+
+.episode-card__body h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
 .episode-card__meta {
   display: flex;
   align-items: center;
   gap: 0.6rem;
   flex-wrap: wrap;
-  margin-top: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .episode-card__meta-item {
@@ -147,18 +160,12 @@ const handlePlay = (e: Event) => {
   color: var(--muted-foreground);
 }
 
-.episode-card__body {
+.episode-card__description {
   flex: 1;
-  margin-top: 0.25rem;
+  margin-bottom: 1rem;
 }
 
-.episode-card__body h3 {
-  margin: 0.25rem 0 0.5rem;
-  font-size: 1.1rem;
-  line-height: 1.3;
-}
-
-.episode-card__body p {
+.episode-card__description p {
   margin: 0;
   color: var(--muted-foreground);
 }
@@ -166,9 +173,7 @@ const handlePlay = (e: Event) => {
 .episode-card__actions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 0.75rem;
-  margin-top: 1rem;
 }
 
 .episode-card__duration {
