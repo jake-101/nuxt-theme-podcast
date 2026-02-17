@@ -76,7 +76,6 @@ These feeds provide additional testing scenarios:
 
 | Podcast | Feed URL | Platform | Episodes | Notable Features |
 |---------|----------|----------|----------|------------------|
-| **Matt and Shane's Secret Podcast** | `https://feeds.megaphone.fm/GLT1158789509` | Megaphone | 346+ | Explicit, content:encoded, comedy |
 | **Conan O'Brien Needs A Friend** | `https://feeds.simplecast.com/dHoohVNH` | Simplecast | 670+ | Episode numbers, content:encoded, large catalog |
 | **Office Ladies** | `https://rss.art19.com/office-ladies` | Art19 | 420+ | The Office rewatch, content:encoded |
 
