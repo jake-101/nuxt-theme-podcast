@@ -320,7 +320,7 @@ export function decodeHtmlEntities(str: string): string {
  * Extracts text content, decodes HTML entities, and extracts speakers
  * from <cite> tags (used by Changelog and similar feeds).
  */
-export function parseHTMLTranscript(content: string): ParsedTranscript {
+export function parseHTMLTranscript(content: string, totalDuration?: number): ParsedTranscript {
   const cues: TranscriptCue[] = []
 
   // Check for <cite>Speaker:</cite><p>text</p> pattern (Changelog-style)
@@ -351,12 +351,12 @@ export function parseHTMLTranscript(content: string): ParsedTranscript {
   // If we found cite blocks, estimate timing and return
   if (hasCiteBlocks && cues.length > 0) {
     const totalChars = cues.reduce((sum, c) => sum + c.text.length, 0)
-    const avgDuration = 30 // ~30s per segment as estimate
-    const totalDuration = cues.length * avgDuration
+    // Use the actual episode duration if available, otherwise estimate ~30s per segment
+    const estimatedDuration = totalDuration || cues.length * 30
     let currentTime = 0
 
     for (const cue of cues) {
-      const segDuration = (cue.text.length / totalChars) * totalDuration
+      const segDuration = (cue.text.length / totalChars) * estimatedDuration
       cue.startTime = currentTime
       cue.endTime = currentTime + segDuration
       currentTime += segDuration
@@ -372,7 +372,7 @@ export function parseHTMLTranscript(content: string): ParsedTranscript {
     .replace(/<\/div>/gi, '\n')
     .replace(/<[^>]+>/g, '')
 
-  return parsePlainText(decodeHtmlEntities(text))
+  return parsePlainText(decodeHtmlEntities(text), totalDuration)
 }
 
 /**
@@ -396,7 +396,7 @@ export function parseTranscript(
     return parseJSONTranscript(content)
   }
   if (type.includes('html')) {
-    return parseHTMLTranscript(content)
+    return parseHTMLTranscript(content, totalDuration)
   }
 
   // Auto-detect by content
@@ -418,7 +418,7 @@ export function parseTranscript(
 
   // HTML detection
   if (trimmed.startsWith('<') || /<[a-z][\s\S]*>/i.test(trimmed)) {
-    return parseHTMLTranscript(content)
+    return parseHTMLTranscript(content, totalDuration)
   }
 
   // Fallback to plain text

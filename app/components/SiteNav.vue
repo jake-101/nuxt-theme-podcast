@@ -97,28 +97,30 @@ const navLinks = computed(() => {
     <div class="site-header__bar">
       <div class="container">
         <div class="site-nav">
-          <!-- Logo -->
-          <NuxtLink to="/" class="site-logo">
-            <img
-              v-if="appConfig.podcast.navLogo === 'image' && podcast?.artwork"
-              :src="podcast.artwork"
-              :alt="podcast.title"
-              class="site-logo__image"
-            />
-            <span v-else class="site-logo__text">{{ podcast?.title || appConfig.podcast.siteTitle || 'Podcast' }}</span>
-          </NuxtLink>
-
-          <!-- Desktop: inline nav links -->
-          <div class="site-nav__links">
-            <NuxtLink
-              v-for="link in navLinks"
-              :key="link.to"
-              :to="link.to"
-              class="site-nav__link"
-              :class="{ 'site-nav__link--active': route.path === link.to }"
-            >
-              {{ link.label }}
+          <!-- Left: logo + nav links -->
+          <div class="site-nav__left">
+            <NuxtLink to="/" class="site-logo">
+              <img
+                v-if="appConfig.podcast.navLogo === 'image' && podcast?.artwork"
+                :src="podcast.artwork"
+                :alt="podcast.title"
+                class="site-logo__image"
+              />
+              <span v-else class="site-logo__text">{{ podcast?.title || appConfig.podcast.siteTitle || 'Podcast' }}</span>
             </NuxtLink>
+
+            <!-- Desktop: inline nav links -->
+            <div class="site-nav__links">
+              <NuxtLink
+                v-for="link in navLinks"
+                :key="link.to"
+                :to="link.to"
+                class="site-nav__link"
+                :class="{ 'site-nav__link--active': route.path === link.to }"
+              >
+                {{ link.label }}
+              </NuxtLink>
+            </div>
           </div>
 
           <!-- Desktop: inline search -->
@@ -174,28 +176,30 @@ const navLinks = computed(() => {
             </div>
           </div>
 
-          <!-- Desktop: theme toggle icon button -->
-          <button
-            class="theme-toggle"
-            type="button"
-            @click="toggleDarkMode"
-            :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
-          >
-            <Icon v-if="isDark" name="ph:sun-bold" size="20" />
-            <Icon v-else name="ph:moon-bold" size="20" />
-          </button>
+          <!-- Right: theme toggle + mobile hamburger -->
+          <div class="site-nav__right">
+            <button
+              class="theme-toggle"
+              type="button"
+              @click="toggleDarkMode"
+              :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+            >
+              <Icon v-if="isDark" name="ph:sun-bold" size="20" />
+              <Icon v-else name="ph:moon-bold" size="20" />
+            </button>
 
-          <!-- Mobile: hamburger button (always in top bar) -->
-          <button
-            class="site-nav__hamburger"
-            type="button"
-            aria-label="Toggle navigation menu"
-            :aria-expanded="mobileMenuOpen"
-            @click="toggleMobileMenu"
-          >
-            <Icon v-if="mobileMenuOpen" name="ph:x-bold" size="22" />
-            <Icon v-else name="ph:list-bold" size="22" />
-          </button>
+            <!-- Mobile: hamburger button (always in top bar) -->
+            <button
+              class="site-nav__hamburger"
+              type="button"
+              aria-label="Toggle navigation menu"
+              :aria-expanded="mobileMenuOpen"
+              @click="toggleMobileMenu"
+            >
+              <Icon v-if="mobileMenuOpen" name="ph:x-bold" size="22" />
+              <Icon v-else name="ph:list-bold" size="22" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -301,11 +305,26 @@ const navLinks = computed(() => {
   padding: var(--space-3, 0.75rem) 0;
 }
 
-/* ─── Top nav row ─── */
+/* ─── Top nav row (three-column: left | center search | right) ─── */
 .site-nav {
   display: flex;
   align-items: center;
   gap: var(--space-4, 1rem);
+}
+
+.site-nav__left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4, 1rem);
+  flex-shrink: 0;
+}
+
+.site-nav__right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 0.5rem);
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 /* Logo */
@@ -361,7 +380,8 @@ const navLinks = computed(() => {
 /* ─── Desktop search ─── */
 .site-nav__search--desktop {
   flex: 1;
-  max-width: 360px;
+  max-width: 320px;
+  margin: 0 auto;
   position: relative;
 }
 
@@ -541,7 +561,6 @@ const navLinks = computed(() => {
   cursor: pointer;
   padding: var(--space-1, 0.25rem);
   line-height: 1;
-  margin-left: auto;
 }
 
 /* ─── Mobile panel (hidden on desktop) ─── */

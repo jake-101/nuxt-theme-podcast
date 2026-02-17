@@ -1,9 +1,13 @@
 import { Howl } from 'howler'
 import { ref, computed, watch } from 'vue'
-import { useIntervalFn } from '@vueuse/core'
+import { useStorage, useIntervalFn } from '@vueuse/core'
 import { useRoute } from '#app'
 import { parseTimestamp } from '~/utils/timestamps'
 import type { Episode, EpisodeSummary } from '~/types/podcast'
+
+/** Lightweight read of listening progress from localStorage (no dependency on useListeningProgress) */
+interface StoredProgress { position: number; duration: number; lastUpdated: number }
+const PROGRESS_KEY = 'podcast-listening-progress'
 
 /** Episode data the player needs — works with both full Episode and lightweight EpisodeSummary */
 type PlayableEpisode = Episode | EpisodeSummary
@@ -89,12 +93,31 @@ export function useAudioPlayer() {
         state.value.duration = howl?.duration() || 0
         state.value.isLoading = false
         
-        // Check for ?t= parameter in URL to auto-seek
+        // Priority 1: ?t= URL parameter (explicit user intent, e.g. shared link)
         if (route.query.t) {
           const timestampSeconds = parseTimestamp(route.query.t as string)
           if (timestampSeconds > 0) {
             seek(timestampSeconds)
+            return
           }
+        }
+
+        // Priority 2: Restore saved listening progress from localStorage
+        try {
+          const raw = localStorage.getItem(PROGRESS_KEY)
+          if (raw && episode.guid) {
+            const store: Record<string, StoredProgress> = JSON.parse(raw)
+            const saved = store[episode.guid]
+            if (saved && saved.position > 0) {
+              // Don't restore if episode is essentially complete (within 60s of end)
+              const remaining = saved.duration - saved.position
+              if (remaining > 60) {
+                seek(saved.position)
+              }
+            }
+          }
+        } catch {
+          // localStorage read failed — start from beginning
         }
       },
       onplay: () => {

@@ -15,8 +15,13 @@ const emit = defineEmits<{
 
 const player = useAudioPlayer()
 const { setActive, isActive } = useActiveEpisode()
+const progress = useListeningProgress()
 
 const artwork = computed(() => props.episode.artwork || props.showArtwork || '')
+
+// Listening progress
+const progressPercent = computed(() => progress.getProgressPercent(props.episode.guid))
+const hasProgress = computed(() => progress.isStarted(props.episode.guid) && !progress.isCompleted(props.episode.guid))
 
 // Check if this episode is currently playing
 const isCurrentEpisode = computed(() => player.currentEpisode.value?.guid === props.episode.guid)
@@ -103,8 +108,16 @@ const handlePlay = (e: Event) => {
           <button @click="handlePlay" type="button" class="episode-card__play-btn">
             <Icon v-if="isPlaying" name="ph:pause-fill" size="14" />
             <Icon v-else name="ph:play-fill" size="14" />
-            {{ isPlaying ? 'Pause' : 'Play Episode' }}
+            {{ isPlaying ? 'Pause' : hasProgress ? 'Continue' : 'Play Episode' }}
           </button>
+          <span v-if="hasProgress" class="episode-card__progress-label">
+            {{ Math.round(progressPercent) }}% played
+          </span>
+        </div>
+
+        <!-- Progress bar for in-progress episodes -->
+        <div v-if="hasProgress" class="episode-card__progress-bar">
+          <div class="episode-card__progress-fill" :style="{ width: `${progressPercent}%` }" />
         </div>
       </Motion>
     </NuxtLink>
@@ -219,5 +232,25 @@ const handlePlay = (e: Event) => {
 
 .episode-card__link:hover h3 {
   text-decoration: underline;
+}
+
+.episode-card__progress-label {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.episode-card__progress-bar {
+  height: 3px;
+  background: color-mix(in srgb, var(--primary) 20%, transparent);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.episode-card__progress-fill {
+  height: 100%;
+  background: var(--primary);
+  border-radius: 2px;
+  transition: width 0.3s ease;
 }
 </style>

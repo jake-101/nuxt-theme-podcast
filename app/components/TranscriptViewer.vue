@@ -31,12 +31,13 @@ const speakerGroups = computed(() => {
   return groupCuesBySpeaker(parsedTranscript.value.cues)
 })
 
-// Has timed cues (vs plain text without timestamps)
+// Has real timed cues — only true for formats with actual timestamps (SRT, VTT, JSON).
+// HTML and plain text transcripts only have estimated timestamps, which aren't accurate
+// enough for seek, auto-scroll, or active cue tracking.
 const hasTimedCues = computed(() => {
   if (!parsedTranscript.value?.cues.length) return false
-  // Check if cues have meaningful different start times
-  const cues = parsedTranscript.value.cues
-  return cues.length > 1 && cues[cues.length - 1].startTime > cues[0].startTime
+  const format = parsedTranscript.value.format
+  return format === 'srt' || format === 'vtt' || format === 'json'
 })
 
 // Search
@@ -67,7 +68,7 @@ const isCurrentEpisode = computed(() =>
 )
 
 const activeCueIndex = computed(() => {
-  if (!isCurrentEpisode.value || !parsedTranscript.value?.cues.length) return -1
+  if (!hasTimedCues.value || !isCurrentEpisode.value || !parsedTranscript.value?.cues.length) return -1
   // Subtract the offset from the audio's currentTime to align with transcript timestamps.
   // If offset=30, audio time 45s maps to transcript time 15s.
   const adjustedTime = player.currentTime.value - transcriptOffset.value
