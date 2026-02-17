@@ -1,14 +1,12 @@
 export default defineAppConfig({
   podcast: {
-    feedUrl: 'https://feeds.transistor.fm/70mm',
-    siteTitle: '70mm',
+    feedUrl: 'https://feeds.transistor.fm/the-sustainable-tech-podcast',
+    siteTitle: 'The Sustainable Tech Podcast',
     platforms: {
-      spotify: 'https://open.spotify.com/show/3zCNBOPtOXHMgXJlEOBMfv',
-      apple: 'https://podcasts.apple.com/us/podcast/70mm/id1611216361',
-      rss: 'https://feeds.transistor.fm/70mm',
+      rss: 'https://feeds.transistor.fm/the-sustainable-tech-podcast',
     },
     episodesPerPage: 18,
-    heroType: 'featured',
+    heroType: 'podcast',
     navLogo: 'image',
     theme: 'auto',
   },
