@@ -18,7 +18,9 @@ RUN pnpm install --frozen-lockfile
 
 # Copy source and build
 COPY . .
-RUN pnpm nuxt prepare playground
+# Generate .nuxt/tsconfig.json for both root layer and playground
+# Root tsconfig.json extends ./.nuxt/tsconfig.json which Vite resolves at build time
+RUN pnpm nuxt prepare && pnpm nuxt prepare playground
 RUN pnpm build
 
 # ---
