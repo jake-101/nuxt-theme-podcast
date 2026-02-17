@@ -9,7 +9,7 @@
     "build:edge": "nuxi prepare && nuxi build playground --preset cloudflare-pages",
     "generate": "nuxi prepare && nuxi generate playground --preset static",
     "preview": "nuxi preview playground",
-    "deploy": "pnpm run generate && wrangler pages deploy playground/.output/public",
+    "deploy": "pnpm run build:edge && wrangler pages deploy playground/dist",
     "start": "node playground/.output/server/index.mjs",
     "test": "vitest",
     "test:run": "vitest run",

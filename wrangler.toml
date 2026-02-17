@@ -1,4 +1,5 @@
 name = "nuxt-theme-podcast"
+pages_build_output_dir = "playground/dist"
 
 [vars]
 # Optional: override the feed URL from app.config.ts
