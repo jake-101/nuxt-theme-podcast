@@ -9,6 +9,10 @@ export default defineNuxtConfig({
       concurrency: 20,
       // Crawl links from rendered pages to discover all routes
       crawlLinks: true,
+      // Don't abort the build when a crawled link 404s.
+      // RSS feed show notes often contain malformed or relative links
+      // that the crawler mistakes for local routes.
+      failOnError: false,
     },
   },
 })

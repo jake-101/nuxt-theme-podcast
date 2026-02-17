@@ -143,26 +143,76 @@ function parsePodcast2Tags(item: any): Podcast2Tags | undefined {
 }
 
 /**
- * Make relative links absolute in HTML content
- * Uses the podcast's base URL to resolve links starting with /
+ * Sanitize href values in HTML content.
+ *
+ * RSS feeds (especially from markdown-based CMSes) often contain malformed
+ * links that break Nitro's prerender crawler. This function fixes:
+ *
+ * 1. Relative paths:    href="/podcast/123"        → absolute with origin
+ * 2. Bare domains:      href="example.com/page"    → https://example.com/page
+ * 3. Encoded brackets:  href="%5Dhttps://..."       → href="https://..."
+ * 4. Paren-wrapped:     href="(https://...)"        → href="https://..."
+ * 5. Bare paths:        href="user/repo"            → absolute with origin
  */
-function makeLinksAbsolute(html: string | undefined, baseUrl: string | undefined): string {
+function sanitizeLinks(html: string | undefined, baseUrl: string | undefined): string {
   if (!html) return ''
-  if (!baseUrl) return html
-  
-  try {
-    const url = new URL(baseUrl)
-    const origin = url.origin
-    
-    // Replace href="/..." with href="https://domain.com/..."
-    // but not href="//..." (protocol-relative)
-    return html.replace(/href=["']\/(?!\/)(.*?)["']/g, (match, path) => {
-      return `href="${origin}/${path}"`
-    })
-  } catch (e) {
-    // If baseUrl is invalid, return original html
-    return html
+
+  let origin = ''
+  if (baseUrl) {
+    try {
+      origin = new URL(baseUrl).origin
+    } catch (_) {
+      // ignore invalid baseUrl
+    }
   }
+
+  return html.replace(/href=(["'])(.*?)\1/g, (_match, quote: string, rawUrl: string) => {
+    let url = rawUrl.trim()
+
+    // Skip anchors (#...), mailto:, tel:, javascript:, data:, and protocol-relative (//)
+    if (
+      !url ||
+      url.startsWith('#') ||
+      url.startsWith('mailto:') ||
+      url.startsWith('tel:') ||
+      url.startsWith('javascript:') ||
+      url.startsWith('data:') ||
+      url.startsWith('//')
+    ) {
+      return `href=${quote}${url}${quote}`
+    }
+
+    // Fix URL-encoded bracket prefix: %5D or %5B (broken markdown)
+    url = url.replace(/^(%5[BD])+/gi, '')
+
+    // Fix paren-wrapped URLs: (https://...) → https://...
+    if (url.startsWith('(') && url.endsWith(')')) {
+      url = url.slice(1, -1)
+    }
+
+    // Already absolute — done
+    if (url.startsWith('http://') || url.startsWith('https://')) {
+      return `href=${quote}${url}${quote}`
+    }
+
+    // Slash-relative: /path → origin + /path
+    if (url.startsWith('/') && origin) {
+      return `href=${quote}${origin}${url}${quote}`
+    }
+
+    // Looks like a bare domain (contains a dot before any slash): example.com/page
+    if (/^[a-z0-9-]+\.[a-z]{2,}/i.test(url)) {
+      return `href=${quote}https://${url}${quote}`
+    }
+
+    // Bare relative path (e.g. "user/repo") — resolve against origin
+    if (origin) {
+      return `href=${quote}${origin}/${url}${quote}`
+    }
+
+    // Nothing we can do — return as-is
+    return `href=${quote}${url}${quote}`
+  })
 }
 
 /**
@@ -274,8 +324,8 @@ export async function parsePodcastFeed(feedUrl: string): Promise<PodcastFeed> {
       guid: item.guid?.['#text'] || item.guid || audioUrl,
       title,
       slug: generateSlug(title, episodeNumber),
-      description: makeLinksAbsolute(String(item['itunes:summary'] || item.description || ''), baseUrl),
-      htmlContent: makeLinksAbsolute(item['content:encoded'], baseUrl),
+      description: sanitizeLinks(String(item['itunes:summary'] || item.description || ''), baseUrl),
+      htmlContent: sanitizeLinks(item['content:encoded'], baseUrl),
       audioUrl,
       audioType: enclosure['@_type'] || enclosure.type || 'audio/mpeg',
       audioLength: parseInt(enclosure['@_length'] || enclosure.length || '0', 10),
