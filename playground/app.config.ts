@@ -1,9 +1,9 @@
 export default defineAppConfig({
   podcast: {
-    feedUrl: 'https://feeds.transistor.fm/the-sustainable-tech-podcast',
-    siteTitle: 'The Sustainable Tech Podcast',
+    feedUrl: 'https://feeds.transistor.fm/cheeky-pint-with-john-collison',
+    siteTitle: 'Cheeky Pint',
     platforms: {
-      rss: 'https://feeds.transistor.fm/the-sustainable-tech-podcast',
+      rss: 'https://feeds.transistor.fm/cheeky-pint-with-john-collison',
     },
     episodesPerPage: 18,
     heroType: 'podcast',
