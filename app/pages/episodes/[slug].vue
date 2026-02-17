@@ -627,8 +627,9 @@ useHead({
   align-items: center;
   gap: 0.2em;
   padding: 0.1em 0.45em;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  background-color: transparent;
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
   border-radius: 0.3em;
   font-size: 0.8em;
   font-weight: 600;
@@ -636,7 +637,7 @@ useHead({
   text-decoration: none;
   cursor: pointer;
   vertical-align: middle;
-  transition: opacity 0.15s;
+  transition: background-color 0.15s, color 0.15s;
 }
 
 .shownotes-content :deep(.timestamp-link::before) {
@@ -646,7 +647,19 @@ useHead({
 }
 
 .shownotes-content :deep(.timestamp-link:hover) {
-  opacity: 0.85;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Remove bullets from show notes lists */
+.shownotes-content :deep(ul),
+.shownotes-content :deep(ol) {
+  list-style: none;
+  padding-left: 0;
+}
+
+.shownotes-content :deep(li) {
+  padding-left: 0;
 }
 
 .podcast20-features {
