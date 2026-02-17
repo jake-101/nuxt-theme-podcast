@@ -1,11 +1,11 @@
 export default defineAppConfig({
   podcast: {
-    feedUrl: 'https://feed.syntax.fm/',
-    siteTitle: 'Syntax',
+    feedUrl: 'https://feeds.transistor.fm/70mm',
+    siteTitle: '70mm',
     platforms: {
-      spotify: 'https://open.spotify.com/show/4kYCRYJ3yK5DQbP5tbfZby',
-      apple: 'https://podcasts.apple.com/podcast/syntax-tasty-web-development-treats/id1253186678',
-      rss: 'https://feed.syntax.fm/',
+      spotify: 'https://open.spotify.com/show/3zCNBOPtOXHMgXJlEOBMfv',
+      apple: 'https://podcasts.apple.com/us/podcast/70mm/id1611216361',
+      rss: 'https://feeds.transistor.fm/70mm',
     },
     episodesPerPage: 18,
     heroType: 'featured',
