@@ -1,0 +1,6 @@
+name = "podcast-site"
+compatibility_date = "2024-11-01"
+pages_build_output_dir = "playground/.output/public"
+
+[vars]
+# Add environment variables here if needed
