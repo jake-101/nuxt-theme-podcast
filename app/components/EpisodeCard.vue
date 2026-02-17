@@ -65,31 +65,33 @@ const handlePlay = (e: Event) => {
         <NuxtImg :src="artwork" :alt="`${episode.title} artwork`" sizes="300px" loading="lazy" />
       </div>
       
-      <div class="episode-card__meta">
-        <span v-if="episode.episodeType !== 'full'" :class="badgeClass">{{ episode.episodeType }}</span>
-        <span class="episode-card__meta-item">
-          <Icon name="ph:calendar-blank" size="14" />
-          {{ formattedDate }}
-        </span>
-      </div>
-      
-      <div class="episode-card__body">
-        <h3>{{ episode.title }}</h3>
-        <p>
-          <small>{{ truncatedDescription }}</small>
-        </p>
-      </div>
-      
-      <div class="episode-card__actions">
-        <button @click="handlePlay" type="button" class="episode-card__play-btn">
-          <Icon v-if="isPlaying" name="ph:pause-fill" size="14" />
-          <Icon v-else name="ph:play-fill" size="14" />
-          {{ isPlaying ? 'Pause' : 'Play Episode' }}
-        </button>
-        <span class="episode-card__duration">
-          <Icon name="ph:clock" size="14" />
-          {{ formattedDuration }}
-        </span>
+      <div class="episode-card__content">
+        <div class="episode-card__meta">
+          <span v-if="episode.episodeType !== 'full'" :class="badgeClass">{{ episode.episodeType }}</span>
+          <span class="episode-card__meta-item">
+            <Icon name="ph:calendar-blank" size="14" />
+            {{ formattedDate }}
+          </span>
+        </div>
+        
+        <div class="episode-card__body">
+          <h3>{{ episode.title }}</h3>
+          <p>
+            <small>{{ truncatedDescription }}</small>
+          </p>
+        </div>
+        
+        <div class="episode-card__actions">
+          <button @click="handlePlay" type="button" class="episode-card__play-btn">
+            <Icon v-if="isPlaying" name="ph:pause-fill" size="14" />
+            <Icon v-else name="ph:play-fill" size="14" />
+            {{ isPlaying ? 'Pause' : 'Play Episode' }}
+          </button>
+          <span class="episode-card__duration">
+            <Icon name="ph:clock" size="14" />
+            {{ formattedDuration }}
+          </span>
+        </div>
       </div>
     </NuxtLink>
   </article>
@@ -121,6 +123,12 @@ const handlePlay = (e: Event) => {
 
 .episode-card__link:hover .episode-card__artwork img {
   transform: scale(1.02);
+}
+
+.episode-card__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .episode-card__meta {
