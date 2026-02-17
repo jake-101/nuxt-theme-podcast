@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import type { FundingLinks } from '~/types/podcast'
+import type { FundingLinks, NewsletterConfig } from '~/types/podcast'
 
 const appConfig = useAppConfig()
 const { podcast } = usePodcast()
 
 const podcastTitle = computed(() => podcast.value?.title || appConfig.podcast?.siteTitle || 'Podcast')
 const rssUrl = computed(() => appConfig.podcast?.platforms?.rss || appConfig.podcast?.feedUrl)
+
+// Newsletter signup config
+const newsletter = computed(() => appConfig.podcast?.newsletter as NewsletterConfig | undefined)
+const hasNewsletter = computed(() => !!(newsletter.value?.url?.trim() || newsletter.value?.embedCode?.trim()))
 
 // Funding links — merge app.config funding with Podcasting 2.0 podcast:funding from feed
 const configFunding = computed(() => appConfig.podcast?.funding as FundingLinks | undefined)
@@ -44,6 +48,9 @@ function getPlatformIcon(key: string) {
 <template>
   <footer class="podcast-footer">
     <div class="container">
+      <!-- Newsletter signup -->
+      <NewsletterSignup v-if="hasNewsletter && newsletter" :newsletter="newsletter" />
+
       <!-- Support section (funding links) -->
       <div v-if="hasFunding" class="podcast-footer__support">
         <p class="podcast-footer__support-label">Support this podcast</p>

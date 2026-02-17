@@ -12,6 +12,22 @@ export interface PlatformLinks {
 }
 
 /**
+ * Newsletter signup configuration
+ */
+export interface NewsletterConfig {
+  /** Newsletter platform */
+  platform?: 'beehiiv' | 'substack' | 'mailchimp' | 'kit'
+  /** Hosted subscribe page URL — always works, shown as a CTA button */
+  url?: string
+  /** Optional raw HTML embed code (form snippet from the platform) */
+  embedCode?: string
+  /** Customizable CTA label */
+  label?: string
+  /** Short description shown above the CTA */
+  description?: string
+}
+
+/**
  * Funding/support links for the podcast
  */
 export interface FundingLinks {
@@ -31,6 +47,7 @@ export interface PodcastConfig {
   siteTitle: string
   platforms: PlatformLinks
   funding: FundingLinks
+  newsletter?: NewsletterConfig
   episodesPerPage: number
   theme: 'light' | 'dark' | 'auto'
 }

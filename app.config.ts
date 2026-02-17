@@ -24,6 +24,16 @@ export default defineAppConfig({
       stripe: '',
       paypal: '',
     },
+
+    // Newsletter signup configuration
+    // Set `url` to enable a CTA button, or `embedCode` for a full inline form
+    newsletter: {
+      platform: '' as '' | 'beehiiv' | 'substack' | 'mailchimp' | 'kit',
+      url: '',
+      embedCode: '',
+      label: 'Subscribe to the newsletter',
+      description: '',
+    },
     
     // Display options
     episodesPerPage: 12,
