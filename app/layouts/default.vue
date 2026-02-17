@@ -179,8 +179,11 @@ useHead({
 .site-nav__search-icon {
   position: absolute;
   left: 0.6rem;
+  top: 50%;
+  transform: translateY(-50%);
   color: color-mix(in srgb, var(--primary-foreground) 60%, transparent);
   pointer-events: none;
+  display: flex;
 }
 
 .site-nav__search-input {
@@ -213,6 +216,8 @@ useHead({
   all: unset;
   position: absolute;
   right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
