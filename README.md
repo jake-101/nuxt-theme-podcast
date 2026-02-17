@@ -20,15 +20,22 @@ A Nuxt 4 Layer that auto-generates a beautiful, fully-featured podcast website f
 
 ## Quick Start
 
-### 1. Install
+### 1. Create a new Nuxt project
+
+```bash
+npx nuxi@latest init my-podcast-site
+cd my-podcast-site
+```
+
+### 2. Install the theme
 
 ```bash
 pnpm add nuxt-podcast-theme
 ```
 
-### 2. Extend the layer
+### 3. Extend the theme
 
-Create a Nuxt project and extend the theme in `nuxt.config.ts`:
+Replace the contents of `nuxt.config.ts` with:
 
 ```ts
 export default defineNuxtConfig({
@@ -36,30 +43,28 @@ export default defineNuxtConfig({
 })
 ```
 
-### 3. Configure your podcast
+### 4. Configure your podcast
 
-Add your podcast configuration in `app.config.ts`:
+Create an `app.config.ts` file in the project root with your podcast's RSS feed URL:
 
 ```ts
 export default defineAppConfig({
   podcast: {
-    feedUrl: 'https://feed.syntax.fm/',
-    siteTitle: 'Syntax - Tasty Web Development Treats',
-    platforms: {
+    feedUrl: 'https://feed.syntax.fm/',  // Replace with your RSS feed URL
+    siteTitle: 'My Podcast',             // Optional: override the title from the feed
+    platforms: {                          // Optional: subscribe links
       spotify: 'https://open.spotify.com/show/...',
       apple: 'https://podcasts.apple.com/...',
       youtube: 'https://youtube.com/...',
-      pocketcasts: 'https://pca.st/...',
-      overcast: 'https://overcast.fm/...',
       rss: 'https://feed.syntax.fm/',
     },
-    episodesPerPage: 12,
-    theme: 'auto',
   },
 })
 ```
 
-### 4. Run
+Only `feedUrl` is required. Everything else is optional.
+
+### 5. Run
 
 ```bash
 pnpm dev
