@@ -16,6 +16,14 @@ const goToEpisode = (slug: string) => {
   router.push(`/episodes/${slug}`)
 }
 
+// Navigate to full search page (Enter key or "more results" click)
+const goToSearchPage = () => {
+  const q = searchInput.value.trim()
+  if (!q) return
+  clearSearch()
+  router.push({ path: '/search', query: { q } })
+}
+
 // Only show search in nav on home and pagination pages
 const isHomePage = computed(() => route.path === '/' || route.path.startsWith('/page/'))
 
@@ -93,6 +101,7 @@ useHead({
                 placeholder="Search episodes..."
                 aria-label="Search episodes"
                 class="site-nav__search-input"
+                @keydown.enter="goToSearchPage"
               />
               <button
                 v-if="searchInput"
@@ -123,8 +132,8 @@ useHead({
                   </span>
                 </li>
               </ul>
-              <div v-if="searchResults.length > 8" class="search-results__more">
-                <small>+ {{ searchResults.length - 8 }} more results</small>
+              <div v-if="searchResults.length > 8" class="search-results__more" @click="goToSearchPage">
+                <small>+ {{ searchResults.length - 8 }} more results &rarr;</small>
               </div>
             </div>
             <!-- No results message -->
@@ -307,6 +316,12 @@ useHead({
   border-bottom: none;
   border-top: 1px solid var(--border);
   text-align: center;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.search-results__more:hover {
+  background-color: var(--muted);
 }
 
 .search-results__empty {
