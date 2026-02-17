@@ -57,15 +57,15 @@ const handlePlay = (e: Event) => {
     as="article"
     class="card episode-card"
     :layout-id="`card-${episode.slug}`"
-    :transition="{ type: 'spring', stiffness: 300, damping: 30 }"
+    :transition="{ type: 'spring', stiffness: 200, damping: 35 }"
   >
     <NuxtLink :to="`/episodes/${episode.slug}`" class="episode-card__link">
-      <Motion 
+      <Motion
         v-if="!hideArtwork"
         as="div"
         class="episode-card__artwork"
         :layout-id="`artwork-${episode.slug}`"
-        :transition="{ type: 'spring', stiffness: 300, damping: 30 }"
+        :transition="{ type: 'spring', stiffness: 200, damping: 35 }"
       >
         <NuxtImg :src="artwork" :alt="`${episode.title} artwork`" sizes="300px" loading="lazy" />
       </Motion>
