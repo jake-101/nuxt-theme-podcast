@@ -5,6 +5,35 @@
   --transition-hover: 0.2s;
 }
 
+/* Scrollbar styling using artwork-derived theme colors */
+/* WebKit (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--primary, #6366f1) 8%, var(--background, #fff));
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--primary, #6366f1) 45%, transparent);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--primary, #6366f1) 70%, transparent);
+  background-clip: padding-box;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--primary, #6366f1) 45%, transparent) color-mix(in srgb, var(--primary, #6366f1) 8%, transparent);
+}
+
 /* Global container utility */
 .container {
   max-width: 1200px;

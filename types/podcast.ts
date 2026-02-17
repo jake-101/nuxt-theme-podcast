@@ -12,12 +12,25 @@ export interface PlatformLinks {
 }
 
 /**
+ * Funding/support links for the podcast
+ */
+export interface FundingLinks {
+  patreon?: string
+  buymeacoffee?: string
+  kofi?: string
+  stripe?: string
+  paypal?: string
+  [key: string]: string | undefined
+}
+
+/**
  * Podcast configuration from app.config.ts
  */
 export interface PodcastConfig {
   feedUrl: string
   siteTitle: string
   platforms: PlatformLinks
+  funding: FundingLinks
   episodesPerPage: number
   theme: 'light' | 'dark' | 'auto'
 }

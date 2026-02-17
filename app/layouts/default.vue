@@ -117,8 +117,10 @@ useHead({
     <!-- Footer -->
     <PodcastFooter />
 
-    <!-- Sticky audio player at bottom -->
-    <AudioPlayer />
+    <!-- Sticky audio player at bottom (client-only to avoid SSR hydration mismatches) -->
+    <ClientOnly>
+      <AudioPlayer />
+    </ClientOnly>
   </div>
 </template>
 

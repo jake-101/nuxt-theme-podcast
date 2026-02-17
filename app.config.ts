@@ -16,6 +16,15 @@ export default defineAppConfig({
       rss: '',
     },
     
+    // Funding/support links for the podcast
+    funding: {
+      patreon: '',
+      buymeacoffee: '',
+      kofi: '',
+      stripe: '',
+      paypal: '',
+    },
+    
     // Display options
     episodesPerPage: 12,
     
