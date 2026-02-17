@@ -1,5 +1,4 @@
-name = "podcast-site"
-compatibility_date = "2024-11-01"
+name = "nuxt-theme-podcast"
 pages_build_output_dir = "playground/.output/public"
 
 [vars]

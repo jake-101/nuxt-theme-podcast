@@ -8,7 +8,7 @@
     "build": "nuxi build playground",
     "generate": "nuxi prepare && nuxi generate playground",
     "preview": "nuxi preview playground",
-    "deploy": "npm run generate && wrangler pages deploy playground/.output/public",
+    "deploy": "pnpm run generate && wrangler pages deploy playground/.output/public",
     "start": "node playground/.output/server/index.mjs",
     "test": "vitest",
     "test:run": "vitest run",
