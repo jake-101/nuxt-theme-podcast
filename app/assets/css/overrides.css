@@ -80,6 +80,68 @@
   .audio-player {
     padding: 0.75rem;
   }
+  
+  /* Mobile episode card: horizontal layout (image left, text right) */
+  .episode-card__link {
+    flex-direction: row !important;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .episode-card__artwork {
+    margin: 0 !important;
+    width: 90px;
+    height: 90px;
+    min-width: 90px;
+    flex-shrink: 0;
+    border-radius: var(--radius-medium) !important;
+  }
+  
+  .episode-card__artwork img {
+    border-radius: var(--radius-medium);
+  }
+  
+  .episode-card__meta {
+    margin-top: 0 !important;
+  }
+  
+  .episode-card__body {
+    margin-top: 0 !important;
+  }
+  
+  .episode-card__body h3 {
+    font-size: 1rem;
+    margin: 0 0 0.35rem;
+    line-height: 1.3;
+    /* Limit to 2 lines on mobile */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .episode-card__body p {
+    /* Limit description to 2 lines on mobile */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    font-size: 0.85rem;
+  }
+  
+  .episode-card__actions {
+    margin-top: 0.5rem !important;
+    flex-wrap: wrap;
+  }
+  
+  .episode-card__play-btn {
+    font-size: 0.8rem !important;
+    padding: 0.4rem 0.75rem !important;
+  }
+  
+  .episode-card__duration {
+    font-size: 0.8rem !important;
+  }
 }
 
 /* Episode card styling */
@@ -281,35 +343,37 @@
 @media (max-width: 768px) {
   .audio-player__container {
     flex-wrap: wrap;
+    gap: 0.5rem;
   }
   
+  /* Hide artwork on mobile */
+  .audio-player__artwork {
+    display: none;
+  }
+  
+  /* Info takes full width */
   .audio-player__info {
     min-width: auto;
-    max-width: calc(100% - 64px);
-    order: -1;
-    flex: 1;
-  }
-  
-  .audio-player__artwork {
-    order: -2;
-  }
-  
-  .audio-player__progress {
+    max-width: 100%;
     order: 1;
-    width: 100%;
+    flex: 1;
     flex-basis: 100%;
-    min-width: unset;
+  }
+  
+  /* Progress bar and controls on same line */
+  .audio-player__progress {
+    order: 2;
+    flex: 1;
+    min-width: 0;
   }
   
   .audio-player__controls {
     order: 2;
+    flex-shrink: 0;
   }
   
+  /* Hide secondary controls (speed + volume) on mobile */
   .audio-player__secondary-controls {
-    order: 3;
-  }
-  
-  .audio-player__volume {
-    display: none; /* Hide volume control on mobile */
+    display: none;
   }
 }
