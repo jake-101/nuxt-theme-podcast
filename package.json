@@ -54,6 +54,7 @@
     "culori": "^4.0.2",
     "extract-colors": "^4.2.1",
     "fast-xml-parser": "^5.3.6",
-    "howler": "^2.2.4"
+    "howler": "^2.2.4",
+    "motion-v": "2.0.0-beta.4"
   }
 }

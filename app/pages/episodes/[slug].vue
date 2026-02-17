@@ -151,7 +151,12 @@ useHead({
     <header class="card episode-header">
       <div class="episode-header__top">
         <!-- Episode artwork -->
-        <div class="episode-artwork">
+        <Motion 
+          as="div"
+          class="episode-artwork"
+          :layout-id="`artwork-${episode.slug}`"
+          :transition="{ type: 'spring', stiffness: 300, damping: 30 }"
+        >
           <NuxtImg 
             :src="episode.artwork || podcast.artwork" 
             :alt="`${episode.title} artwork`"
@@ -159,10 +164,16 @@ useHead({
             height="400"
             loading="eager"
           />
-        </div>
+        </Motion>
 
         <!-- Title and badges -->
-        <div class="episode-header__info">
+        <Motion 
+          as="div"
+          class="episode-header__info"
+          :initial="{ opacity: 0, y: 20 }"
+          :animate="{ opacity: 1, y: 0 }"
+          :transition="{ delay: 0.1, duration: 0.4 }"
+        >
           <div v-if="(episode.episodeType && episode.episodeType !== 'full') || episode.explicit" class="episode-badges">
             <span 
               v-if="episode.episodeType && episode.episodeType !== 'full'" 
@@ -179,11 +190,17 @@ useHead({
           <h1 class="episode-title">{{ episode.title }}</h1>
 
           <p class="episode-podcast-name">{{ podcast.title }}</p>
-        </div>
+        </Motion>
       </div>
 
       <!-- Meta details row -->
-      <div class="episode-details">
+      <Motion 
+        as="div"
+        class="episode-details"
+        :initial="{ opacity: 0, y: 20 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ delay: 0.2, duration: 0.4 }"
+      >
         <span class="episode-detail-item">
           <Icon name="ph:calendar-blank" size="16" />
           {{ formatDate(episode.pubDate) }}
@@ -193,10 +210,16 @@ useHead({
           <template v-if="episode.seasonNumber">S{{ episode.seasonNumber }} </template>
           E{{ episode.episodeNumber }}
         </span>
-      </div>
+      </Motion>
 
       <!-- Actions -->
-      <div class="episode-actions">
+      <Motion 
+        as="div"
+        class="episode-actions"
+        :initial="{ opacity: 0, y: 20 }"
+        :animate="{ opacity: 1, y: 0 }"
+        :transition="{ delay: 0.25, duration: 0.4 }"
+      >
         <div class="episode-actions-left">
           <button 
             class="play-button"
@@ -223,11 +246,18 @@ useHead({
           <Icon name="ph:share-network" size="20" />
           Share
         </button>
-      </div>
+      </Motion>
     </header>
 
     <!-- Content tabs: Show Notes / Transcript -->
-    <section v-if="showNotes || hasTranscript" class="episode-content-tabs">
+    <Motion 
+      as="section"
+      v-if="showNotes || hasTranscript" 
+      class="episode-content-tabs"
+      :initial="{ opacity: 0, y: 20 }"
+      :animate="{ opacity: 1, y: 0 }"
+      :transition="{ delay: 0.35, duration: 0.4 }"
+    >
       <!-- Tab bar (only show if transcript available) -->
       <div v-if="hasTranscript" class="tab-bar">
         <button
@@ -265,7 +295,7 @@ useHead({
       <div v-if="hasTranscript" v-show="activeTab === 'transcript'" class="tab-panel">
         <TranscriptViewer :episode="episode" />
       </div>
-    </section>
+    </Motion>
 
     <!-- Original episode link -->
     <div v-if="episode.link" class="episode-source-link">
