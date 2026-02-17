@@ -177,15 +177,15 @@ useHead({
 .site-nav__search-icon {
   position: absolute;
   left: 0.6rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: color-mix(in srgb, var(--primary-foreground) 60%, transparent);
   pointer-events: none;
 }
 
 .site-nav__search-input {
   width: 100%;
   padding: 0.45rem 2.25rem 0.45rem 2rem;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, var(--primary-foreground) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-foreground) 25%, transparent);
   border-radius: 0.375rem;
   color: var(--primary-foreground);
   font-size: 0.875rem;
@@ -194,12 +194,12 @@ useHead({
 }
 
 .site-nav__search-input::placeholder {
-  color: rgba(255, 255, 255, 0.55);
+  color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
 }
 
 .site-nav__search-input:focus {
-  background: rgba(255, 255, 255, 0.25);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: color-mix(in srgb, var(--primary-foreground) 20%, transparent);
+  border-color: color-mix(in srgb, var(--primary-foreground) 50%, transparent);
 }
 
 /* Hide the browser's native search cancel button */
@@ -214,7 +214,7 @@ useHead({
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.7);
+  color: color-mix(in srgb, var(--primary-foreground) 65%, transparent);
   cursor: pointer;
   padding: 0.15rem;
   border-radius: 0.25rem;
@@ -226,8 +226,8 @@ useHead({
 }
 
 .theme-toggle {
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, var(--primary-foreground) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary-foreground) 25%, transparent);
   border-radius: 0.25rem;
   padding: 0.5rem;
   cursor: pointer;
@@ -240,7 +240,7 @@ useHead({
 }
 
 .theme-toggle:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: color-mix(in srgb, var(--primary-foreground) 20%, transparent);
 }
 
 .main-content {
