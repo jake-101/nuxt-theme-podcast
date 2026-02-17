@@ -18,6 +18,7 @@ RUN pnpm install --frozen-lockfile
 
 # Copy source and build
 COPY . .
+RUN pnpm nuxt prepare playground
 RUN pnpm build
 
 # ---
