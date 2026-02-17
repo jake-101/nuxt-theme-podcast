@@ -40,10 +40,12 @@ export default defineNuxtConfig({
     ],
   },
 
-  // @nuxt/image: podcast artwork comes from arbitrary RSS feed CDNs
-  // Use default ipx provider with external image support
+  // @nuxt/image: podcast artwork is always from external RSS feed CDNs.
+  // The default ipx provider passes external URLs through without transformation —
+  // you still get lazy loading, responsive srcset, and native <img> attributes.
+  // To get actual compression/resizing, override this in your app's nuxt.config.ts
+  // with a cloud provider: provider: 'cloudflare' | 'imgix' | 'cloudinary' etc.
   image: {
-    // Allow all external image sources (podcast CDNs vary by hosting platform)
     provider: 'ipx',
   },
 
