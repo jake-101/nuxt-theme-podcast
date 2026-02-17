@@ -13,9 +13,16 @@ const dropdownOpen = ref(true)
 const showSearchResults = computed(() => !isSearchPage.value && dropdownOpen.value && isSearching.value && searchResults.value.length > 0)
 const showNoResults = computed(() => !isSearchPage.value && dropdownOpen.value && isSearching.value && searchResults.value.length === 0)
 
-// Re-open dropdown when user types (unless on /search page)
+// Re-open dropdown when user types
 watch(searchInput, () => {
   dropdownOpen.value = true
+})
+
+// Clear search when navigating away from /search
+watch(isSearchPage, (onSearchPage, wasOnSearchPage) => {
+  if (wasOnSearchPage && !onSearchPage) {
+    clearSearch()
+  }
 })
 
 // Navigate to episode when search result is clicked
