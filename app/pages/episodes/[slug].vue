@@ -601,18 +601,16 @@ useHead({
   display: inline-flex;
   align-items: center;
   gap: 0.2em;
-  padding: 0.1em 0.45em;
   background-color: transparent;
   color: var(--primary);
-  border: 1.5px solid var(--primary);
-  border-radius: 0.3em;
-  font-size: 0.8em;
+  border: none;
+  font-size: 0.85em;
   font-weight: 600;
   font-family: ui-monospace, monospace;
   text-decoration: none;
   cursor: pointer;
   vertical-align: middle;
-  transition: background-color 0.15s, color 0.15s;
+  transition: opacity 0.15s;
 }
 
 .shownotes-content :deep(.timestamp-link::before) {
@@ -622,8 +620,7 @@ useHead({
 }
 
 .shownotes-content :deep(.timestamp-link:hover) {
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  opacity: 0.7;
 }
 
 /* Remove bullets from show notes lists */
