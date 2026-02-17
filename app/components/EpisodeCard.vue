@@ -53,12 +53,7 @@ const handlePlay = (e: Event) => {
 </script>
 
 <template>
-  <Motion
-    as="article"
-    class="card episode-card"
-    :layout-id="`card-${episode.slug}`"
-    :transition="{ type: 'spring', stiffness: 280, damping: 28 }"
-  >
+  <article class="card episode-card">
     <NuxtLink :to="`/episodes/${episode.slug}`" class="episode-card__link">
       <Motion
         v-if="!hideArtwork"
@@ -102,7 +97,7 @@ const handlePlay = (e: Event) => {
         </div>
       </div>
     </NuxtLink>
-  </Motion>
+  </article>
 </template>
 
 <style scoped>
