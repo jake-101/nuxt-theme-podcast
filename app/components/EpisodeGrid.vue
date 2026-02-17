@@ -99,20 +99,25 @@ const handlePlay = (episode: Episode) => {
     
     <div v-else>
       <div class="episode-grid">
-        <Motion
-          v-for="episode in paginatedEpisodes"
-          :key="episode.guid"
-          as="div"
-          layout
-          :transition="{ type: 'spring', stiffness: 400, damping: 30 }"
-        >
-          <EpisodeCard
-            :episode="episode"
-            :show-artwork="showArtwork"
-            :hide-artwork="hideArtwork"
-            @play="handlePlay"
-          />
-        </Motion>
+        <AnimatePresence mode="popLayout">
+          <Motion
+            v-for="episode in paginatedEpisodes"
+            :key="episode.guid"
+            as="div"
+            layout
+            :initial="{ opacity: 0, scale: 0.9 }"
+            :animate="{ opacity: 1, scale: 1 }"
+            :exit="{ opacity: 0, scale: 0.9 }"
+            :transition="{ type: 'spring', stiffness: 400, damping: 30 }"
+          >
+            <EpisodeCard
+              :episode="episode"
+              :show-artwork="showArtwork"
+              :hide-artwork="hideArtwork"
+              @play="handlePlay"
+            />
+          </Motion>
+        </AnimatePresence>
       </div>
       
       <Pagination
