@@ -245,11 +245,6 @@ useHead({
       </div>
     </header>
 
-    <!-- Episode description -->
-    <section v-if="episode.description" class="episode-description">
-      <p>{{ episode.description }}</p>
-    </section>
-
     <!-- Keywords -->
     <section v-if="episode.keywords && episode.keywords.length > 0" class="episode-keywords">
       <div class="keywords">
@@ -553,13 +548,6 @@ useHead({
   font-size: 0.9rem;
   color: var(--muted-foreground);
   font-weight: 500;
-}
-
-.episode-description {
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background-color: var(--muted);
-  border-radius: 0.5rem;
 }
 
 .episode-keywords {
