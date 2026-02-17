@@ -65,7 +65,9 @@ const setPage = (page: number) => {
     query.page = String(clamped)
   }
   router.replace({ query })
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (import.meta.client) {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 // Reset to page 1 when search changes
@@ -99,7 +101,7 @@ const handlePlay = (episode: Episode) => {
     
     <div v-else>
       <div class="episode-grid">
-        <AnimatePresence>
+        <AnimatePresence mode="popLayout">
           <Motion
             v-for="episode in paginatedEpisodes"
             :key="episode.guid"

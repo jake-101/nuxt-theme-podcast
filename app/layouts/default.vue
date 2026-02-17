@@ -168,12 +168,13 @@ useHead({
 .site-nav__search {
   flex: 1;
   max-width: 420px;
+  align-self: center;
 }
 
 .site-nav__search-wrap {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 
 .site-nav__search-icon {
@@ -187,6 +188,8 @@ useHead({
 }
 
 .site-nav__search-input {
+  -webkit-appearance: none;
+  appearance: none;
   width: 100%;
   padding: 0.45rem 2.25rem 0.45rem 2rem;
   background: color-mix(in srgb, var(--primary-foreground) 12%, transparent);
@@ -194,6 +197,9 @@ useHead({
   border-radius: 0.375rem;
   color: var(--primary-foreground);
   font-size: 0.875rem;
+  line-height: 1.25;
+  box-sizing: border-box;
+  margin: 0;
   outline: none;
   transition: background 0.2s, border-color 0.2s;
 }

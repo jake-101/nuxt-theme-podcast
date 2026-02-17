@@ -71,7 +71,12 @@ const handlePlay = (e: Event) => {
         <NuxtImg :src="artwork" :alt="`${episode.title} artwork`" sizes="300px" loading="lazy" />
       </Motion>
       
-      <div class="episode-card__content" :class="{ 'episode-card__content--exiting': isActive(episode.slug) }">
+      <Motion
+        as="div"
+        class="episode-card__content"
+        :animate="{ opacity: isActive(episode.slug) ? 0 : 1 }"
+        :transition="{ duration: 0.15 }"
+      >
         <div class="episode-card__body">
           <h3>{{ episode.title }}</h3>
         </div>
@@ -101,7 +106,7 @@ const handlePlay = (e: Event) => {
             {{ isPlaying ? 'Pause' : 'Play Episode' }}
           </button>
         </div>
-      </div>
+      </Motion>
     </NuxtLink>
   </Motion>
 </template>
@@ -138,11 +143,6 @@ const handlePlay = (e: Event) => {
   display: flex;
   flex-direction: column;
   flex: 1;
-  transition: opacity 0.15s ease-out;
-}
-
-.episode-card__content--exiting {
-  opacity: 0;
 }
 
 .episode-card__body {
