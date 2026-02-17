@@ -5,6 +5,7 @@ const router = useRouter()
 const requestURL = useRequestURL()
 const { podcast, findEpisodeBySlug } = usePodcast()
 const player = useAudioPlayer()
+const { getPersonsForEpisode } = usePodcastPeople()
 
 // Get episode from slug
 const slug = computed(() => route.params.slug as string)
@@ -101,6 +102,12 @@ const isPlaying = computed(() => isCurrentEpisode.value && player.isPlaying.valu
 // Transcript availability and tab state
 const hasTranscript = computed(() => !!episode.value?.podcast2?.transcript?.url)
 const activeTab = ref<'shownotes' | 'transcript'>('shownotes')
+
+// Persons from the people composable (aggregated, with person page links)
+const episodePersons = computed(() => {
+  if (!episode.value) return []
+  return getPersonsForEpisode(episode.value.slug)
+})
 
 // Play/pause this episode
 const playEpisode = () => {
@@ -316,23 +323,33 @@ useHead({
       </div>
 
       <!-- Episode contributors -->
-      <div v-if="episode.podcast2?.persons?.length" class="feature-item">
-        <h3>Contributors</h3>
-        <ul class="persons-list">
-          <li v-for="person in episode.podcast2.persons" :key="person.name">
-            <strong>{{ person.name }}</strong>
-            <span v-if="person.role"> - {{ person.role }}</span>
-            <a 
-              v-if="person.href" 
-              :href="person.href" 
-              target="_blank" 
-              rel="noopener"
-              class="person-link"
-            >
-              (link)
-            </a>
-          </li>
-        </ul>
+      <div v-if="episodePersons.length" class="feature-item">
+        <h3>
+          Contributors
+          <NuxtLink to="/people" class="all-people-link">View all people →</NuxtLink>
+        </h3>
+        <div class="episode-persons">
+          <NuxtLink
+            v-for="person in episodePersons"
+            :key="person.slug"
+            :to="`/people/${person.slug}`"
+            class="episode-person"
+          >
+            <div class="episode-person__avatar">
+              <NuxtImg
+                v-if="person.img"
+                :src="person.img"
+                :alt="person.name"
+                width="48"
+                height="48"
+                loading="lazy"
+              />
+              <Icon v-else name="ph:user-circle" size="28" />
+            </div>
+            <span class="episode-person__name">{{ person.name }}</span>
+            <span v-if="person.role" class="episode-person__role">{{ person.role }}</span>
+          </NuxtLink>
+        </div>
       </div>
     </section>
 
@@ -648,8 +665,7 @@ useHead({
   font-weight: 600;
 }
 
-.funding-link,
-.person-link {
+.funding-link {
   color: var(--primary, #2563eb);
   text-decoration: underline;
 }
@@ -662,14 +678,84 @@ useHead({
   margin-bottom: 0;
 }
 
-.persons-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+/* Contributors (Podcasting 2.0 persons) */
+.feature-item h3 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
-.persons-list li {
-  padding: 0.25rem 0;
+.all-people-link {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.episode-persons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.episode-person {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  text-align: center;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.6rem;
+  border-radius: var(--radius-medium);
+  transition: background-color var(--transition-fast);
+  min-width: 80px;
+  max-width: 100px;
+}
+
+.episode-person:hover {
+  background-color: var(--muted);
+  text-decoration: none;
+}
+
+.episode-person__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted-foreground);
+  flex-shrink: 0;
+}
+
+.episode-person__avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.episode-person__name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.episode-person:hover .episode-person__name {
+  text-decoration: underline;
+}
+
+.episode-person__role {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+  text-transform: capitalize;
 }
 
 .episode-footer {

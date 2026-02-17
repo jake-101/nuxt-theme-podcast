@@ -64,7 +64,7 @@
 @media (max-width: 768px) {
   .podcast-hero {
     min-height: auto;
-    padding: 2rem 1rem;
+    padding: 0 1rem 2rem;
   }
   
   .podcast-hero__artwork {

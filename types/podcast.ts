@@ -100,3 +100,21 @@ export interface PodcastFeed {
   podcast: Podcast
   episodes: Episode[]
 }
+
+/**
+ * A person extracted from Podcasting 2.0 podcast:person tags
+ * Aggregated across all episodes for the persons directory
+ */
+export interface Person {
+  /** Unique slug derived from name */
+  slug: string
+  name: string
+  role?: string
+  group?: string
+  /** Avatar/headshot image URL */
+  img?: string
+  /** External link (personal site, social, etc.) */
+  href?: string
+  /** Slugs of episodes this person appears in */
+  episodeSlugs: string[]
+}

@@ -1,13 +1,13 @@
 export default defineAppConfig({
   podcast: {
-    feedUrl: 'https://feeds.transistor.fm/70mm',
-    siteTitle: '70mm Pod',
+    feedUrl: 'https://feeds.transistor.fm/acquired',
+    siteTitle: 'Acquired',
     platforms: {
-      apple: 'https://podcasts.apple.com/podcast/id1488993527',
-      rss: 'https://podnews.net/rss',
+      apple: 'https://podcasts.apple.com/podcast/acquired/id1050462261',
+      rss: 'https://feeds.transistor.fm/acquired',
     },
     episodesPerPage: 18,
-    hideArtwork: true,
+    heroType: 'featured',
     theme: 'auto',
   },
 })
