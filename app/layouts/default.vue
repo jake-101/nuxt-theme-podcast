@@ -1,7 +1,6 @@
 <script setup lang="ts">
 const appConfig = useAppConfig()
 const { podcast } = usePodcast()
-const { hasPeople } = usePodcastPeople()
 const route = useRoute()
 
 // Search state — shared with EpisodeGrid
@@ -72,12 +71,6 @@ useHead({
               class="site-logo__image"
             />
             <h1 v-else>{{ podcast?.title || appConfig.podcast.siteTitle || 'Podcast' }}</h1>
-          </NuxtLink>
-
-          <!-- People link (only if feed has podcast:person data) -->
-          <NuxtLink v-if="hasPeople" to="/people" class="site-nav__people-link">
-            <Icon name="ph:users" size="16" />
-            People
           </NuxtLink>
 
           <!-- Search input (home page only) -->
@@ -168,27 +161,6 @@ useHead({
   width: auto;
   border-radius: 0.375rem;
   object-fit: contain;
-}
-
-.site-nav__people-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  color: var(--primary-foreground);
-  text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 500;
-  padding: 0.4rem 0.6rem;
-  border-radius: 0.25rem;
-  flex-shrink: 0;
-  transition: background-color 0.2s;
-  opacity: 0.85;
-}
-
-.site-nav__people-link:hover,
-.site-nav__people-link.router-link-active {
-  background: rgba(255, 255, 255, 0.15);
-  opacity: 1;
 }
 
 .site-nav__search {
