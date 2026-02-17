@@ -6,12 +6,6 @@ const requestURL = useRequestURL()
 const { podcast, findEpisodeBySlug } = usePodcast()
 const player = useAudioPlayer()
 const { getPersonsForEpisode } = usePodcastPeople()
-const { clearActive } = useActiveEpisode()
-
-// Clear active episode after transition completes
-onMounted(() => {
-  setTimeout(clearActive, 600)
-})
 
 // Get episode from slug
 const slug = computed(() => route.params.slug as string)

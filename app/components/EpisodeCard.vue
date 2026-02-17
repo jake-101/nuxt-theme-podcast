@@ -14,7 +14,7 @@ const emit = defineEmits<{
 }>()
 
 const player = useAudioPlayer()
-const { activeSlug, setActive } = useActiveEpisode()
+const { setActive, isActive } = useActiveEpisode()
 
 const artwork = computed(() => props.episode.artwork || props.showArtwork || '')
 
@@ -41,17 +41,6 @@ const badgeClass = computed(() => {
   return `episode-badge episode-badge--${props.episode.episodeType}`
 })
 
-const router = useRouter()
-
-const handleCardClick = (e: Event) => {
-  e.preventDefault()
-  setActive(props.episode.slug)
-  // Wait a tick so Motion captures the layout-id before navigating
-  nextTick(() => {
-    router.push(`/episodes/${props.episode.slug}`)
-  })
-}
-
 const handlePlay = (e: Event) => {
   e.preventDefault()
   e.stopPropagation()
@@ -68,15 +57,15 @@ const handlePlay = (e: Event) => {
   <Motion
     as="article"
     class="card episode-card"
-    :layout-id="activeSlug === episode.slug ? `card-${episode.slug}` : undefined"
+    :layout-id="isActive(episode.slug) ? `card-${episode.slug}` : undefined"
     :transition="{ type: 'spring', stiffness: 280, damping: 28 }"
   >
-    <NuxtLink :to="`/episodes/${episode.slug}`" class="episode-card__link" @click.prevent="handleCardClick">
+    <NuxtLink :to="`/episodes/${episode.slug}`" class="episode-card__link" @click="setActive(episode.slug)">
       <Motion
         v-if="!hideArtwork"
         as="div"
         class="episode-card__artwork"
-        :layout-id="activeSlug === episode.slug ? `artwork-${episode.slug}` : undefined"
+        :layout-id="`artwork-${episode.slug}`"
         :transition="{ type: 'spring', stiffness: 280, damping: 28 }"
       >
         <NuxtImg :src="artwork" :alt="`${episode.title} artwork`" sizes="300px" loading="lazy" />

@@ -1,9 +1,7 @@
 /**
- * Tracks which episode card was clicked for shared element transitions.
- * Only the clicked card gets a layout-id so other cards don't animate.
+ * Tracks which episode slug was clicked for navigation,
+ * so only that card gets the shared element card transition.
  */
-import { ref } from 'vue'
-
 const activeSlug = ref<string | null>(null)
 
 export function useActiveEpisode() {
@@ -11,13 +9,16 @@ export function useActiveEpisode() {
     activeSlug.value = slug
   }
 
-  const clearActive = () => {
+  const clear = () => {
     activeSlug.value = null
   }
+
+  const isActive = (slug: string) => activeSlug.value === slug
 
   return {
     activeSlug,
     setActive,
-    clearActive,
+    clear,
+    isActive,
   }
 }
