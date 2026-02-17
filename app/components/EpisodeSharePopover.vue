@@ -192,6 +192,7 @@ const formattedTime = computed(() => {
 <style scoped>
 .share-wrapper {
   position: relative;
+  margin-left: auto;
 }
 
 /* Trigger button — uses oat.css ghost button styling */
