@@ -119,7 +119,9 @@ watch(activeCueIndex, (newIndex) => {
 
 // Click to seek — add the transcript offset so the audio seeks to the right position.
 // If offset=30 and cue.startTime=15, we seek to audio time 45s.
-const seekToCue = (cue: TranscriptCue) => {
+// Skip if the click target is a link (let the browser follow it).
+const seekToCue = (event: MouseEvent, cue: TranscriptCue) => {
+  if ((event.target as HTMLElement).closest('a')) return
   if (!hasTimedCues.value) return
 
   const seekTarget = cue.startTime + transcriptOffset.value
@@ -226,7 +228,7 @@ onUnmounted(() => {
               'cue-clickable': hasTimedCues,
               'cue-highlight': searchQuery && cue.text.toLowerCase().includes(searchQuery.toLowerCase()),
             }"
-            @click="seekToCue(cue)"
+            @click="seekToCue($event, cue)"
           >
             <span v-if="hasTimedCues" class="cue-timestamp">
               {{ formatTimestamp(cue.startTime) }}
@@ -244,14 +246,54 @@ onUnmounted(() => {
 </template>
 
 <script lang="ts">
-// Helper to highlight search matches in text
+/**
+ * Render cue text as safe HTML with optional search highlighting.
+ *
+ * 1. Split text on markdown links [text](url) to preserve them
+ * 2. Escape HTML in plain-text segments
+ * 3. Convert markdown links to <a> tags
+ * 4. Apply search highlighting to text portions (not URLs)
+ */
 function highlightSearch(text: string, query: string): string {
-  if (!query || !query.trim()) return escapeHtml(text)
+  // Regex to match markdown links: [link text](https://url)
+  const mdLinkRe = /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g
 
+  // Split the text into segments: plain text and markdown links
+  const parts: string[] = []
+  let lastIndex = 0
+  let match: RegExpExecArray | null
+
+  while ((match = mdLinkRe.exec(text)) !== null) {
+    // Plain text before the link
+    if (match.index > lastIndex) {
+      parts.push(processPlainText(text.slice(lastIndex, match.index), query))
+    }
+    // The link itself — escape the link text, keep the URL intact
+    const linkText = applyHighlight(escapeHtml(match[1]), query)
+    parts.push(`<a href="${escapeAttr(match[2])}" target="_blank" rel="noopener">${linkText}</a>`)
+    lastIndex = match.index + match[0].length
+  }
+
+  // Remaining plain text after the last link
+  if (lastIndex < text.length) {
+    parts.push(processPlainText(text.slice(lastIndex), query))
+  }
+
+  return parts.join('')
+}
+
+/** Escape and optionally highlight a plain text segment */
+function processPlainText(text: string, query: string): string {
   const escaped = escapeHtml(text)
+  return applyHighlight(escaped, query)
+}
+
+/** Wrap search matches in <mark> tags (operates on already-escaped HTML) */
+function applyHighlight(html: string, query: string): string {
+  if (!query || !query.trim()) return html
   const escapedQuery = escapeHtml(query)
   const regex = new RegExp(`(${escapedQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi')
-  return escaped.replace(regex, '<mark>$1</mark>')
+  return html.replace(regex, '<mark>$1</mark>')
 }
 
 function escapeHtml(str: string): string {
@@ -259,6 +301,12 @@ function escapeHtml(str: string): string {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+}
+
+function escapeAttr(str: string): string {
+  return str
+    .replace(/&/g, '&amp;')
     .replace(/"/g, '&quot;')
 }
 </script>
@@ -448,6 +496,16 @@ function escapeHtml(str: string): string {
   font-size: 0.9rem;
   color: var(--foreground);
   word-break: break-word;
+}
+
+.cue-text :deep(a) {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cue-text :deep(a:hover) {
+  opacity: 0.8;
 }
 
 .cue-text :deep(mark) {

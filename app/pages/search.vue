@@ -22,8 +22,9 @@ const truncate = (text: string, len = 200) => {
   return plain.substring(0, len).trim() + '...'
 }
 
-// Navigate to episode
+// Navigate to episode — clear search first to prevent dropdown flash
 const goToEpisode = (slug: string) => {
+  searchInput.value = ''
   router.push(`/episodes/${slug}`)
 }
 

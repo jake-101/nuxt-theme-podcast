@@ -274,6 +274,18 @@ export function parsePlainText(content: string, totalDuration?: number): ParsedT
 }
 
 /**
+ * Convert markdown-style links [text](url) to HTML <a> tags.
+ * Only matches links with http/https URLs to avoid false positives
+ * on text that happens to use brackets for other purposes.
+ */
+export function markdownLinksToHtml(str: string): string {
+  return str.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>',
+  )
+}
+
+/**
  * Decode HTML entities (named and numeric) in a string.
  * Handles &#39; &#x27; &amp; &ndash; &mdash; &rsquo; etc.
  */
