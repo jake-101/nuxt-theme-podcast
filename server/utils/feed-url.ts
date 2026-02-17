@@ -1,12 +1,15 @@
 import type { H3Event } from 'h3'
 
 /**
- * Resolve and validate the podcast feed URL from app config.
+ * Resolve and validate the podcast feed URL.
+ * Priority: FEED_URL env var > app.config.ts podcast.feedUrl
  * Throws appropriate H3 errors if URL is missing or invalid.
  */
 export function resolveFeedUrl(event: H3Event): string {
+  // Environment variable takes priority (useful for Cloudflare Pages, Vercel, etc.)
+  const envFeedUrl = process.env.FEED_URL
   const appConfig = useAppConfig(event)
-  const feedUrl = appConfig.podcast?.feedUrl
+  const feedUrl = envFeedUrl || appConfig.podcast?.feedUrl
 
   if (!feedUrl) {
     throw createError({
