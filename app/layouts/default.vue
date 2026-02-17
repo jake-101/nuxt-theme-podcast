@@ -174,7 +174,7 @@ useHead({
 .site-nav__search-wrap {
   position: relative;
   display: flex;
-  align-items: stretch;
+  align-items: center;
 }
 
 .site-nav__search-icon {
@@ -199,7 +199,8 @@ useHead({
   font-size: 0.875rem;
   line-height: 1.25;
   box-sizing: border-box;
-  margin: 0;
+  margin: 0; /* Override oat.css margin-block-start: var(--space-1) on inputs */
+  margin-block-start: 0;
   outline: none;
   transition: background 0.2s, border-color 0.2s;
 }
