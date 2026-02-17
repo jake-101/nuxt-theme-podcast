@@ -21,12 +21,19 @@ function getCacheKey(feedUrl: string): string {
 }
 
 /**
- * Fetch and parse podcast feed with caching
- * Uses Nitro's storage layer for persistent caching
+ * In-memory cache for the feed during prerendering.
+ * During `nuxi generate`, all routes run in the same Node process, so this
+ * module-level Map is shared across every route and prevents redundant
+ * fetch+parse cycles (the Nitro storage cache uses async I/O that can
+ * still cause duplicate in-flight requests).
  */
-export const getCachedPodcastFeed = defineCachedFunction(
+const memoryCache = new Map<string, Promise<PodcastFeed>>()
+
+/**
+ * Nitro storage-backed cache (persists across server restarts in dev/production)
+ */
+const _cachedFetch = defineCachedFunction(
   async (feedUrl: string): Promise<PodcastFeed> => {
-    // Fetch and parse the feed
     return await parsePodcastFeed(feedUrl)
   },
   {
@@ -37,9 +44,24 @@ export const getCachedPodcastFeed = defineCachedFunction(
 )
 
 /**
+ * Fetch and parse podcast feed with caching.
+ * Uses an in-memory dedup layer on top of Nitro's storage cache so that
+ * concurrent prerender routes share a single fetch+parse promise.
+ */
+export function getCachedPodcastFeed(feedUrl: string): Promise<PodcastFeed> {
+  const existing = memoryCache.get(feedUrl)
+  if (existing) return existing
+
+  const promise = _cachedFetch(feedUrl)
+  memoryCache.set(feedUrl, promise)
+  return promise
+}
+
+/**
  * Clear the cached podcast feed for a specific URL
  */
 export async function clearFeedCache(feedUrl: string): Promise<void> {
+  memoryCache.delete(feedUrl)
   const storage = useStorage('cache')
   const cacheKey = `nitro:functions:podcast-feed:${getCacheKey(feedUrl)}.json`
   
@@ -54,6 +76,7 @@ export async function clearFeedCache(feedUrl: string): Promise<void> {
  * Clear all podcast feed caches
  */
 export async function clearAllFeedCaches(): Promise<void> {
+  memoryCache.clear()
   const storage = useStorage('cache')
   
   try {
