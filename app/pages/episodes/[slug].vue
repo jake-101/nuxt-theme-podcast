@@ -706,6 +706,7 @@ useHead({
     width: 100%;
     height: auto;
     aspect-ratio: 1;
+    pointer-events: none;
   }
 
   .episode-header__info {
