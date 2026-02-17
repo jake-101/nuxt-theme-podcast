@@ -66,14 +66,16 @@ export function useAudioPlayer() {
   const play = async (episode: PlayableEpisode) => {
     state.value.isLoading = true
 
-    // If same episode, just resume
-    if (howl && state.value.currentEpisode?.guid === episode.guid) {
+    // If same episode and already playing/paused (not just preloaded), resume
+    if (howl && state.value.currentEpisode?.guid === episode.guid && state.value.currentTime > 0) {
       howl.play()
       state.value.isPlaying = true
       state.value.isLoading = false
       resumeInterval()
       return
     }
+    // If preloaded but never played (currentTime === 0), fall through to
+    // create a fresh Howl with the full onload handler that restores progress.
 
     // Unload previous audio to free up audio pool
     if (howl) {

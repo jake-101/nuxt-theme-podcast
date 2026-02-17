@@ -3,6 +3,11 @@
 const player = useAudioPlayer()
 const { podcast } = usePodcast()
 
+// Initialize listening progress tracking — the auto-save watch/interval
+// lives inside this composable, so it must be called in a component that
+// persists across navigation (AudioPlayer is always mounted in the layout).
+useListeningProgress()
+
 // Local state for dragging seek bar
 const isDragging = ref(false)
 const dragPosition = ref(0)
